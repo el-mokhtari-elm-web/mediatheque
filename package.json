@@ -1,0 +1,26 @@
+{
+  "name": "media-library",
+  "version": "1.0.0",
+  "description": "Site internet dynamique pour la location de livres de type médiathèque virtuelle",
+  "main": "index.js",
+  "scripts": {
+    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youssef-jos/media_library.git"
+  },
+  "keywords": [
+    "media-library",
+    "php",
+    "mysql",
+    "bootstrap",
+    "javascript"
+  ],
+  "author": "El mokhtari Youssef",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/youssef-jos/media_library/issues"
+  },
+  "homepage": "https://github.com/youssef-jos/media_library#readme"
+}
