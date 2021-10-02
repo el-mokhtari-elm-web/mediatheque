@@ -31,6 +31,6 @@ define ("SVG", "/media-library/assets/svg");
 define ("IMG", "/media-library/assets/img");
 define ("IMG_PATH", $_SERVER['DOCUMENT_ROOT'].IMG);
 
-define("DSN", 'mysql:host=127.0.0.1;' .PORT. 'dbname=db_0502_media_library');
-define("DB_USER", "elm-web");
+define("DSN", 'mysql:host=127.0.0.1; dbname=media_library');
+define("DB_USER", "elmokhtari");
 define("DB_PASS", "#*Yousss77*#");

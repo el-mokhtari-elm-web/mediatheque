@@ -1,9 +1,15 @@
+@import url("home.css");
 @import url("footer.css");
 
 @font-face {
   font-family: "myVidaloka";
   src: local("../fonts/vidaloka/Vidaloka-Regular.otf") format("otf");
 }
+
+
+
+
+
 
 
 
