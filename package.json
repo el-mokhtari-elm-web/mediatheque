@@ -1,0 +1,29 @@
+{
+  "name": "media-library",
+  "version": "1.0.0",
+  "description": "une médiathèque virtuelle pour louer des livres en ligne via une inscription et connexion privé",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youssef-jos/media_library.git"
+  },
+  "keywords": [
+    "php",
+    "javascript",
+    "bootstrap",
+    "mysql",
+    "react"
+  ],
+  "author": "el mokhtari youssef",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/youssef-jos/media_library/issues"
+  },
+  "homepage": "https://github.com/youssef-jos/media_library#readme",
+  "dependencies": {
+    "bootstrap": "^5.1.1"
+  }
+}

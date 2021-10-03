@@ -1,0 +1,13 @@
+.section-register { 
+    min-width: 100%;
+    min-height: auto;
+    background-color: cornflowerblue;
+}
+
+.bg-section-register { 
+    background-color: cornflowerblue;
+}
+
+.register  {
+    background-color: #c1def0;
+  }

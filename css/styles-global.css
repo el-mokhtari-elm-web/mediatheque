@@ -1,4 +1,6 @@
 @import url("home.css");
+@import url("login.css");
+@import url("register.css");
 @import url("footer.css");
 
 @font-face {

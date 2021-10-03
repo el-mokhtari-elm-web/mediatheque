@@ -6,11 +6,11 @@
         //var_dump($dbName);
     ?>
     
-    <div class="d-flex align-items-center bg_screen">
+    <section class="d-flex align-items-center bg_screen">
 
-    <aside class="home-buttons d-flex row justify-content-center">
-        <input type="button" class="btn btn-primary px-5 py-4 mx-3 my-4 rounded-pill connexion" value="Se connecter">
-        <input type="button" class="btn btn-primary px-5 py-4 mx-3 my-4 rounded-pill registration" value="inscrire">
-    </aside>
+        <aside class="d-flex flex-column align-items-center justify-content-center home-buttons">
+            <a href="#" class="d-block btn col-lg-5 col-12 py-3 px-5 btn-success my-4 rounded-pill connexion">Se connecter</a>
+            <a href="#" class="d-block btn col-lg-5 col-12 py-3 px-5 btn-primary my-4 rounded-pill registration">S'inscrire</a>
+        </aside>
 
-    </div>
+    </section>

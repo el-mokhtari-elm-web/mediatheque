@@ -13,18 +13,16 @@ define ("RGPD", "/media-library/View/rgpd_page.php");
 
 define ("ADMIN", "/media-library/Admin/admin.php");
 
-define ("BOOTSTRAP", "/media-library/vendor/bootstrap-css/bootstrap.min.css");
+define ("BOOTSTRAP", "/media-library/node_modules/bootstrap/dist/css/bootstrap.min.css");
 define ("STYLES_GLOBAL", "/media-library/css/styles-global.css");
-
 
 
 define ("INDEX_JS", "/media-library/index.js");
 define ("LOGIN_JS", "/media-library/js/loginpage.js");
 define ("ADMIN_JS", "/media-library/js/admin.js");
 define ("BOOKING_JS", "/media-library/js/booking.js");
-define ("JQUERY", "/media-library/vendor/jquery/jquery.min.js");
-define ("BOOTSTRAP_JS", "/media-library/vendor/bootstrap-js/bootstrap.js");
-
+define ("JQUERY", "/media-library/node_modules/jquery/dist/jquery.min.js");
+define ("BOOTSTRAP_JS", "/media-library/node_modules/bootstrap/dist/js/bootstrap.js");
 
 
 define ("SVG", "/media-library/assets/svg");

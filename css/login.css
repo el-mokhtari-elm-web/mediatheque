@@ -1,0 +1,17 @@
+.section-login {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    min-width: 100%;
+    min-height: 100%;
+    background-color: cornflowerblue;
+}
+
+.login  {
+    max-width: 50%;
+    border: 2px solid #ffffff;
+    border-radius: 20px;
+    padding: 3%;
+    background-color: #c1def0;
+  }
+
