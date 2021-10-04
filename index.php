@@ -1,5 +1,5 @@
 <?php
-  session_start();
+  //session_start();
 
   require_once("Config/config.php");
   require_once("View/header_page.php");
@@ -12,7 +12,6 @@
           <?php 
               require_once("View/home_menu.php");
           ?>
-
 
           <?php
             require_once("View/home_page.php");

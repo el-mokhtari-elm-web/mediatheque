@@ -7,9 +7,14 @@ session_start();
   require_once("../Controller/process_logout.php");
 ?>
 
-    <body class="d-flex column justify-content-center pt-1 align-items-center bg-section-register">
-        <section class="d-flex column justify-content-center align-items-center section-register">
-            <aside class="container w-75 pt-1 pb-2 px-5 rounded register">
+    <body class="d-flex column justify-content-center pb-3 align-items-center bg-section-register">
+
+        <?php
+            require_once("home_menu.php");
+        ?>
+
+        <section class="d-flex column justify-content-center align-items-center mb-4 section-register">
+            <aside class="container w-75 pt-3 pb-4 px-5 rounded register">
               <h4 class="col-lg-10 col-12 mx-auto mt-1 pb-3 text-center">Fiche d'inscription</h4>
                         <form>
                             <div class="form-row">
@@ -28,7 +33,7 @@ session_start();
                                 </label>
 
                                 <label for="inputZip5" class="mr-3">Date de naissance
-                                  <input type="date" class="form-control" id="inputZip5" placeholder="98232" />
+                                  <input type="date" class="form-control" id="inputZip4" placeholder="98232" />
                                 </label>
 
                                 <label for="inputZip5">Code postal
@@ -45,7 +50,7 @@ session_start();
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="inputPassword4">Old Password</label>
-                                        <input type="password" class="form-control" id="inputPassword5" />
+                                        <input type="password" class="form-control" id="inputPassword4" />
                                     </div>
                                     <div class="form-group">
                                         <label for="inputPassword5">New Password</label>
@@ -75,6 +80,16 @@ session_start();
                         
                     </aside>
             </section>
+
+          <?php
+              require_once("footer_page.php"); 
+          ?>
+
+        <!-- Bootstrap core JavaScript -->
+        <script src="<?php echo JQUERY; ?>"></script>
+        <script src="<?php echo BOOTSTRAP_JS; ?>"></script>
+        <script src="<?php echo INDEX_JS; ?>"></script>
+
     </body>
 
 </html>

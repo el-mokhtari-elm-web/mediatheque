@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/youssef-jos/media_library#readme",
   "dependencies": {
-    "bootstrap": "^5.1.1"
+    "bootstrap": "^5.1.1",
+    "jquery": "^3.6.0"
   }
 }
