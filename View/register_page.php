@@ -11,59 +11,58 @@ session_start();
 
         <?php
             require_once("home_menu.php");
+            require_once("modal_cookies.php");
         ?>
 
-      <div class="d-flex column justify-content-center pb-0 align-items-center">
-        <section class="d-flex column justify-content-center align-items-center mb-1 section-register">
-            <aside class="container w-75 pt-1 pb-4 px-5 rounded register">
+        <section class="d-flex column justify-content-center align-items-center section-register">
+            <aside class="container w-75 pt-1 pb-3 px-5 rounded register">
               <h4 class="col-lg-10 col-12 mx-auto mt-1 pb-2 text-center">Fiche d'inscription</h4>
                         <form>
                             <div class="d-inline-block form-group pb-3">
                                 <label for="firstname" class="d-inline-block">Firstname
-                                    <input type="text" id="firstname" class="form-control" placeholder="Brown" />
+                                    <input type="text" id="firstname" class="form-control" name="firstname" placeholder="maxense" />
                                 </label>
 
                                 <label for="lastname" class="d-inline-block">Lastname
-                                    <input type="text" id="lastname" class="form-control" placeholder="Asher" />
+                                    <input type="text" id="lastname" class="form-control" name="lastname" placeholder="albert" />
                                 </label>
                             </div>
                             <div class="form-group pb-3">
-                                <label for="inputEmail4" class="mr-3">Email
-                                  <input type="email" class="form-control" id="inputEmail4" placeholder="brown@asher.me" />
+                                <label for="email" class="mr-3">Email
+                                  <input type="email" id="email" class="form-control" name="email" placeholder="maxense@gmail.fr" />
                                 </label>
 
-                                <label for="inputZip5" class="mr-3">Date de naissance
-                                  <input type="date" class="form-control" id="inputZip4" placeholder="98232" />
+                                <label for="date_of_birth" class="mr-3">Date de naissance
+                                  <input type="date" id="date_of_birth" class="form-control" name="date_of_birth" />
                                 </label>
 
-                                <label for="inputZip5">Code postal
-                                  <input type="text" class="form-control" id="inputZip5" placeholder="98232" />
+                                <label for="postal_code">Code postal
+                                  <input type="text" id="postal_code" class="form-control" name="postal_code" placeholder="59600" />
                                 </label>
 
                             </div>
                             <div class="form-group pb-3">
-                                <label for="inputAddress5">Address</label>
-                                <input type="text" class="form-control" id="inputAddress5" placeholder="P.O. Box 464, 5975 Eget Avenue" />
+                                <label for="location">Address</label>
+                                <input type="text" id="location" class="form-control" name="location" placeholder="22, rue de l'espérance bloc Saturn" />
                             </div>
                             <hr class="my-1" />
                             <div class="row mb-4 pb-3">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputPassword4">Old Password</label>
-                                        <input type="password" class="form-control" id="inputPassword4" />
+                                        <label for="pass_user">Mot de passe</label>
+                                        <input type="password" id="pass_user" class="form-control" name="pass_user" />
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputPassword5">New Password</label>
+                                        <label for="inputPassword5">Saisir à nouveau Mot de passe</label>
                                         <input type="password" class="form-control" id="inputPassword5" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <p class="mb-2">Password requirements</p>
-                                    <p class="small text-muted mb-2">To create a new password, you have to meet all of the following requirements:</p>
-                                    <ul class="small text-muted pl-4 mb-0">
-                                        <li>Minimum 8 character</li>
-                                        <li>At least one special character</li>
-                                    </ul>
+                                    <dl class="small text-muted pl-4 mb-0">
+                                      <dt class="small text-muted mb-2">Conditions de validation du mot de passe:</dt>
+                                      <dd>Minimum 10 caractères</dd>
+                                      <dd>Comprenant (Majuscules, chiffres, caractères spéciaux)</dd>
+                                    </dl>
                                 </div>
                             </div>
                             <aside>
@@ -74,7 +73,6 @@ session_start();
                         
                     </aside>
             </section>
-          </div>
 
           <?php
               require_once("footer_min.php"); 

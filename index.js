@@ -59,10 +59,7 @@
             }
         }
 
-
-
         navHamburger(navBarResponsiv, navBarNav);
-
 
         window.addEventListener("resize", () => {
             if (window.document.body.offsetWidth > 991) {

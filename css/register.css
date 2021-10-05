@@ -1,17 +1,17 @@
-@media screen and (max-width: 6000px) {
+@media screen and (max-width: 600px) {
     .section-register { 
-        padding-bottom: 100px;
-        margin-bottom: 50px;
+        padding-bottom: 130px;
+        margin-bottom: 20px;
     }
     .submit-register { 
         margin-bottom: 40px;
     }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 991px) {
     .section-register { 
-        padding-bottom: 85px;
-        margin-bottom: 80px;
+        padding-bottom: 65px;
+        margin-bottom: 40px;
     }
     .submit-register { 
         margin-bottom: 70px;

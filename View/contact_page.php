@@ -11,6 +11,7 @@ session_start();
 
         <?php
             require_once("home_menu.php");
+            require_once("modal_cookies.php");
         ?>
 
         <div class="d-flex row justify-content-center align-items-center">

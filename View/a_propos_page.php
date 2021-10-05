@@ -34,7 +34,10 @@
             <p><span>News</span> and <span>announcements</span> for all things <span>Bootstrap</span>, including new <span>releases</span> and <span>Bootstrap Themes</span>.</p>
         </div>
 
-        <?php require_once("footer_min.php"); ?>
+        <?php 
+          require_once("modal_cookies.php");
+          require_once("footer_min.php"); 
+        ?>
 
         <script type="text/javascript" src="<?php echo BOOTSTRAP_JS; ?>" defer></script>
 

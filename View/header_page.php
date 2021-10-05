@@ -17,7 +17,6 @@
             <script type="text/javascript" src="<?php echo JQUERY; ?>" defer></script>
             <script type="text/javascript" src="<?php echo BOOTSTRAP_JS; ?>" defer></script>
             <script type="text/javascript" src="<?php echo INDEX_JS; ?>" defer></script>
-            <script type="text/javascript" src="<?php echo LIBRARY_JS; ?>" defer></script>
 
         </head>
 

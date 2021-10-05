@@ -28,18 +28,10 @@
                 <p>Si vous estimez, après nous avoir contactés, que vos droits « Informatique et Libertés » ne sont pas respectés, vous pouvez adresser une réclamation à la <a href="https://www.cnil.fr/">CNIL.</a>👈</p>
             </aside>
 
-            <aside class="d-flex justify-content-center form-rgpd">
-            <form method="post" name="form-cookies" class="d-flex col-lg-5 col-12 flex-row justify-content-between align-items-center btn btn-info">
-                <label class="form-check-label" for="inlineCheckbox1">Refuser
-                    <input class="form-check-input" type="radio" id="cookies-aproved" name="status-cookies" value="aproved">
-                </label>
-
-                <label class="form-check-label" for="status-">Accepter
-                    <input class="form-check-input" type="radio" id="cookies-desaproved" name="status-cookies" value="desaproved">
-                </label>
-                                        
-                <input type="submit" class="btn btn-success ml-5" name="submit" value="Envoyer">
-            </form>
+            <aside class="d-flex justify-content-center mx-auto form-rgpd">
+                <?php 
+                    require_once("rgpd_form.php");
+                ?>
             </aside>
 
 </div>

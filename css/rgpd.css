@@ -1,13 +1,19 @@
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 591px) {
     .form-rgpd {
         display: flex;
         padding-bottom: 5%!important;
         align-items: flex-end!important;
     }
+    .form-rgpd {
+        width: 50%;
+        padding: 0 3%;
+    }
 }
 
 .form-rgpd {
+    width: 90%;
     margin-bottom: 0%;
+    padding: 0 7%;
 }
 
 
