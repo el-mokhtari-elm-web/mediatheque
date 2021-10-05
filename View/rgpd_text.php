@@ -1,4 +1,4 @@
-<div class="cookies-text">
+<div class="pb-5 cookies-text">
     <h1 class="d-flex justify-content-center">Gestion des Cookies</h1>
         <p>
             Les informations recueillies sur ce site sont enregistrées dans un fichier informatisé par ELM web services pour facilité l'expérience utilisateur.
@@ -24,13 +24,22 @@
                 </ul>
             </address> 
 
-        <p>Si vous estimez, après nous avoir contactés, que vos droits « Informatique et Libertés » ne sont pas respectés, vous pouvez adresser une réclamation à la <a href="https://www.cnil.fr/">CNIL.</a>👈</p>
+            <aside class="d-flex justify-content-between">
+                <p>Si vous estimez, après nous avoir contactés, que vos droits « Informatique et Libertés » ne sont pas respectés, vous pouvez adresser une réclamation à la <a href="https://www.cnil.fr/">CNIL.</a>👈</p>
+            </aside>
 
-        <form name="form-cookies" method="post" class="btn btn-secondary btn-sm form-check form-check-inline cookies-buttons">
+            <aside class="d-flex justify-content-center form-rgpd">
+            <form method="post" name="form-cookies" class="d-flex col-lg-5 col-12 flex-row justify-content-between align-items-center btn btn-info">
+                <label class="form-check-label" for="inlineCheckbox1">Refuser
+                    <input class="form-check-input" type="radio" id="cookies-aproved" name="status-cookies" value="aproved">
+                </label>
 
-            <label class="form-check-label">J'accepte<input type="radio" name="status-cookies" value="approved" class="btn btn-success form-check-input ml-2 mr-3"></label>
-            <label class="form-check-label">Je refuse<input type="radio" name="status-cookies" value="desaproved" class="btn btn-danger form-check-input ml-2 mr-3"></label>
+                <label class="form-check-label" for="status-">Accepter
+                    <input class="form-check-input" type="radio" id="cookies-desaproved" name="status-cookies" value="desaproved">
+                </label>
+                                        
+                <input type="submit" class="btn btn-success ml-5" name="submit" value="Envoyer">
+            </form>
+            </aside>
 
-            <input type="submit" name="submit" value="Envoyer" class="btn btn-success form-check-input btn-sm mr-2 ml-2">
-        </form>
 </div>

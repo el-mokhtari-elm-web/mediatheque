@@ -1,10 +1,23 @@
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 767px) {
     .bloc-contact-infos {
         display: none;
     }
+    .contact-form {
+        margin-bottom: 10%;
+    }
     .contact-submit {
         display: block;
-        margin: 5% auto;
+        margin: 5% auto 10%;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 300px) AND (max-width: 607px) {
+    .bloc-contact {
+        margin-bottom: 70px;
+    }
+    .contact-submit {
+        margin: 5% auto 100%;
     }
 }
 

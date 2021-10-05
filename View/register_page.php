@@ -7,25 +7,25 @@ session_start();
   require_once("../Controller/process_logout.php");
 ?>
 
-    <body class="d-flex column justify-content-center pb-3 align-items-center bg-section-register">
+    <body class="bg-section-register">
 
         <?php
             require_once("home_menu.php");
         ?>
 
-        <section class="d-flex column justify-content-center align-items-center mb-4 section-register">
-            <aside class="container w-75 pt-3 pb-4 px-5 rounded register">
-              <h4 class="col-lg-10 col-12 mx-auto mt-1 pb-3 text-center">Fiche d'inscription</h4>
+      <div class="d-flex column justify-content-center pb-0 align-items-center">
+        <section class="d-flex column justify-content-center align-items-center mb-1 section-register">
+            <aside class="container w-75 pt-1 pb-4 px-5 rounded register">
+              <h4 class="col-lg-10 col-12 mx-auto mt-1 pb-2 text-center">Fiche d'inscription</h4>
                         <form>
-                            <div class="form-row">
-                                <div class="form-group col-md-6 pb-3">
-                                    <label for="firstname">Firstname</label>
+                            <div class="d-inline-block form-group pb-3">
+                                <label for="firstname" class="d-inline-block">Firstname
                                     <input type="text" id="firstname" class="form-control" placeholder="Brown" />
-                                </div>
-                                <div class="form-group col-md-6 pb-3">
-                                    <label for="lastname">Lastname</label>
+                                </label>
+
+                                <label for="lastname" class="d-inline-block">Lastname
                                     <input type="text" id="lastname" class="form-control" placeholder="Asher" />
-                                </div>
+                                </label>
                             </div>
                             <div class="form-group pb-3">
                                 <label for="inputEmail4" class="mr-3">Email
@@ -56,10 +56,6 @@ session_start();
                                         <label for="inputPassword5">New Password</label>
                                         <input type="password" class="form-control" id="inputPassword5" />
                                     </div>
-                                    <div class="form-group">
-                                        <label for="inputPassword6">Confirm Password</label>
-                                        <input type="password" class="form-control" id="inputPassword6" />
-                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <p class="mb-2">Password requirements</p>
@@ -67,22 +63,21 @@ session_start();
                                     <ul class="small text-muted pl-4 mb-0">
                                         <li>Minimum 8 character</li>
                                         <li>At least one special character</li>
-                                        <li>At least one number</li>
-                                        <li>Can’t be the same as a previous password</li>
                                     </ul>
                                 </div>
                             </div>
                             <aside>
-                                <input type="submit" class="d-block col-lg-4 col-12 m-auto btn btn-primary py-3" value="Envoyer">
-                                <span class="d-block col-lg-4 col-12 my-2 mx-auto text-center">Vous avez un compte ? <a href="<?php echo LOGIN; ?>" class="ml-3">Par ici</a></span> 
+                                <input type="submit" class="d-block col-lg-4 col-12 m-auto btn btn-primary py-3 submit-register" value="Envoyer" name="submit">
+                                <span class="d-block col-lg-4 col-12 my-1 mx-auto text-center submit-register">Vous avez un compte ? <a href="<?php echo LOGIN; ?>" class="ml-3">Par ici</a></span> 
                             </aside>
                         </form>
                         
                     </aside>
             </section>
+          </div>
 
           <?php
-              require_once("footer_page.php"); 
+              require_once("footer_min.php"); 
           ?>
 
         <!-- Bootstrap core JavaScript -->

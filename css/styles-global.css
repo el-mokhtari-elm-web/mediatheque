@@ -2,12 +2,31 @@
 @import url("login.css");
 @import url("register.css");
 @import url("contact.css");
+@import url("a-propos.css");
+@import url("rgpd.css");
+@import url("modal-cookies.css");
 @import url("footer.css");
 
 @font-face {
   font-family: "myVidaloka";
   src: local("../fonts/vidaloka/Vidaloka-Regular.otf") format("otf");
 }
+
+body {
+  margin-top: 80px;
+  height: max-content;
+  overflow: scroll;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+
 
 
 

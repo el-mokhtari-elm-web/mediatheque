@@ -9,15 +9,15 @@
 
           <div class="d-flex flex-row justify-content-center align-items-center collapse navbar-collapse all-navs" id="navbarResponsive">
             <ul class="navbar-nav ml-auto nav-principal text-center">
-              <li class="nav-item home" id="<?php if ($_SERVER["REQUEST_URI"] === ACCUEIL.'/') { echo 'active'; } ?>">
-                <a class="nav-link" href="<?php echo ACCUEIL; ?>">&#8962;</a>
-              </li>
-              <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === A_PROPOS) { echo 'active'; } ?>">
-                <a class="nav-link" href="<?php echo A_PROPOS; ?>">A propos</a>
-              </li>
-              <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === CONTACT) { echo 'active'; } ?>">
-                <a class="nav-link" href="<?php echo CONTACT; ?>">Contact</a>
-              </li>
+                <li class="nav-item home" id="<?php if ($_SERVER["REQUEST_URI"] === ACCUEIL.'/') { echo 'active'; } ?>">
+                  <a class="nav-link" href="<?php echo ACCUEIL; ?>">&#8962;</a>
+                </li>
+                <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === A_PROPOS) { echo 'active'; } ?>">
+                  <a class="nav-link" href="<?php echo A_PROPOS; ?>">A propos</a>
+                </li>
+                <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === CONTACT) { echo 'active'; } ?>">
+                  <a class="nav-link" href="<?php echo CONTACT; ?>">Contact</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav ml-auto nav-login text-center">
@@ -60,11 +60,17 @@
                   endif;
                 ?>
 
+                <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === CONTACT) { echo 'active'; } ?>">
+                  <a class="nav-link" href="<?php echo INFOS_CORONAVIRUS; ?>">Infos coronavirus</a>
+                </li>
+
             </ul>
           </div>
     </div>
 </nav>
 <!-- Navigation -->
+
+
 
 
 

@@ -1,6 +1,26 @@
+@media screen and (max-width: 6000px) {
+    .section-register { 
+        padding-bottom: 100px;
+        margin-bottom: 50px;
+    }
+    .submit-register { 
+        margin-bottom: 40px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .section-register { 
+        padding-bottom: 85px;
+        margin-bottom: 80px;
+    }
+    .submit-register { 
+        margin-bottom: 70px;
+    }
+}
+
 .section-register { 
     min-width: 100%;
-    min-height: auto;
+    min-height: 100%;
     background-color: cornflowerblue;
 }
 
@@ -10,4 +30,4 @@
 
 .register  {
     background-color: #c1def0;
-  }
+}

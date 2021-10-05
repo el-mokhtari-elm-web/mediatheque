@@ -1,0 +1,27 @@
+@media screen and (max-width: 991px) {
+    .infos-rgpd {
+        display: block!important;
+        width: 50%!important;
+        margin: 2% auto!important;
+        padding: 5% 0;
+        text-align: center!important;
+    }
+}
+
+.cookies-text {
+    margin: 0.5% auto 2.5%;
+    padding: 0.5% 2%;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.cookies-buttons {
+    display: flex;
+    width: 70%;
+    min-height: 70px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 2% auto;
+    text-align: center;
+}

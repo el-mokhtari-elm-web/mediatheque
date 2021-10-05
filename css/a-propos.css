@@ -1,0 +1,55 @@
+.home-main {
+    background: white;
+    color:#fff;
+    padding: 0 3%;
+    text-align: center;
+}
+
+.blinker {
+    animation: blinker 1.5s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+.home-main button {
+    background: #fff;
+    color: #337ab7;
+    border-radius: 7.5px;
+    font-weight: 700;
+    width: 16%;
+    height: 50px;
+    margin: 1% auto 0;
+}
+
+.home-main button:hover {
+    transition: 1s ease;
+    color: teal;
+    width: 19%;
+}
+
+.content1-left, .content1-right {
+    padding: 5% 9%;
+}
+
+.content1-right {
+    background:#e4e4e4;
+}
+
+.home-content2 {
+    background: #adb5bd;
+    padding: 1.4%;
+    text-align: center;	
+}
+
+.home-content2 p {
+    font-size: 18px;
+    line-height: 50px;
+}
+
+.home-content2 p span {
+    font-weight: 500;
+}

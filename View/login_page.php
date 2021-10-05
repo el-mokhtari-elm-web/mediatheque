@@ -41,7 +41,7 @@ session_start();
         </section>
 
       <?php
-              require_once("footer_page.php"); 
+              require_once("footer_min.php"); 
           ?>
 
         <!-- Bootstrap core JavaScript -->

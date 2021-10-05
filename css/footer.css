@@ -1,0 +1,21 @@
+/************************** footer ****************************/
+@media screen and (max-width: 770px) {
+.footer-min {
+    margin: auto;
+    text-align: center;
+  }
+}
+  
+.footer-min a {
+    text-decoration: none;
+    color: gray;
+}
+
+.footer-min a:hover {
+    color: white;
+}
+
+.rgpd {
+    margin-left: 15px;
+}
+/************************** footer ****************************/
