@@ -1,0 +1,3 @@
+<nav class="navbar-dark bg-dark d-flex flex-row justify-content-center align-items-center py-2 fixed-bottom footer-min">
+    <p class="d-inline-block text-white">Tout droits réservés &copy; Médiathèque <span class="d-inline-block small text-info">Chapelle Cureaux</span> 2021 <a class="d-inline-block small ml-4 text-right rgpd" href="<?php echo RGPD; ?>" title="rgpd">loi et confidentialité RGPD</a></p>
+</nav>
