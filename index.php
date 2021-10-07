@@ -3,6 +3,11 @@
 
   require_once("Config/config.php");
   require_once("View/header_page.php");
+
+  if ($_SERVER["REQUEST_URI"] === ACCUEIL.'/') {
+    require("Controller/process_logout.php");
+  }
+  
   require_once("Controller/process_cookies.php");
 ?>
 
@@ -20,8 +25,6 @@
 
           <?php
             require_once("View/footer_min.php");
-            echo "<pre>"; var_dump($_POST); echo "</pre>";
-            echo "<pre>"; var_dump($_SESSION); echo "</pre>";
           ?>
 
 

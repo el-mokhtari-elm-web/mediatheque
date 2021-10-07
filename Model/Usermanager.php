@@ -6,6 +6,28 @@ class Usermanager extends Dbconnect {
 
 /*-----------------------------------------------------------USER CHECKED---------------------------------------------------------------*/
 
+    public function verifiedUser(User $newUser) {
+        $emailUser = $newUser->getEmailUser(); 
+        $passUser = $newUser->getPassUser(); 
+
+        $user = $newUser->getUser(); 
+        $firstname = $user['firstname'];
+        $lastname = $user['lastname']; 
+
+        $stmt = self::$_instance_db->prepare("SELECT * FROM users WHERE email_user = :emailUser AND firstname = :firstname AND lastname = :lastname");
+            $stmt->bindParam(':emailUser', $emailUser);
+            $stmt->bindParam(':firstname', $firstname);
+            $stmt->bindParam(':lastname', $lastname);
+                $stmt->execute();
+                    $row = $stmt->fetchAll(\PDO::FETCH_ASSOC); 
+        if (count($row) > 0) {
+            return $row;
+        } else {
+            $this->insertUser($newUser, $emailUser, $passUser);
+            return;
+          }
+    }
+
     public function getUserChecked(User $newUser) {
         $emailUser = $newUser->getEmailUser();
         $passUser = $newUser->getPassUser();
@@ -29,14 +51,8 @@ class Usermanager extends Dbconnect {
     /*-----------------------------------------------------FUNCTIONS FOR GET------------------------------------------------------------*/
     
         public function getUsers() {
-            $stmt = self::$_instance_db->prepare("SELECT * FROM users WHERE email_user NOT IN ('contact.elmweb@gmail.com')");
-                $stmt->execute();
-                    $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                    return $row;
-        }
-
-        public function getUsersPremium() {
-            $stmt = self::$_instance_db->prepare("SELECT count(id) AS users_premium FROM users WHERE cms_premium IS NOT NULL");
+            //$stmt = self::$_instance_db->prepare("SELECT * FROM users WHERE email_user NOT IN ('contact.elmweb@gmail.com')");
+            $stmt = self::$_instance_db->prepare("SELECT * FROM users");
                 $stmt->execute();
                     $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                     return $row;
@@ -50,114 +66,105 @@ class Usermanager extends Dbconnect {
                     return $row;
         }
 
-        public function getCmsByUsers() {
-            $stmt = self::$_instance_db->prepare("SELECT count(used_cms.favoris_user_id) AS count_users, cms.cms_name FROM used_cms INNER JOIN cms ON used_cms.cms_id = cms.id GROUP BY cms.cms_name ASC");
+        private function getCurrentUser($emailUser, $firstname, $lastname) {
+            $stmt = self::$_instance_db->prepare("SELECT id, firstname, lastname, type_user, level_user FROM users WHERE email_user = :emailUser AND firstname = :firstname AND lastname = :lastname");
+                $stmt->bindParam(':emailUser', $emailUser, \PDO::PARAM_STR);
+                $stmt->bindParam(':firstname', $firstname, \PDO::PARAM_STR);
+                $stmt->bindParam(':lastname', $lastname, \PDO::PARAM_STR); 
                 $stmt->execute();
                     $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                     return $row;
         }
 
-        public function getUsedCms() {
-            $stmt = self::$_instance_db->prepare("SELECT * FROM used_cms WHERE cms_id = :cmsId AND favoris_user_id = :favorisUserId");
-                $stmt->bindParam(':cmsId', $this->_datas_cms['cms_id']); 
-                $stmt->bindParam(':favorisUserId', $this->_datas_cms['favoris_user_id']);
-                $stmt->execute();
-                    $rowUsedCms = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                    return $rowUsedCms;
-        }
-
-        private function getUserId($emailUser, $lastName) {
-            $stmt = self::$_instance_db->prepare("SELECT id FROM users WHERE email_user = :emailUser AND lastname = :lastName");
-            $stmt->bindParam(':emailUser', $emailUser); 
-            $stmt->bindParam(':lastName', $lastName);
-            $stmt->execute();                  
-            $rowUserId = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            return $rowUserId;
-        }
-    
     /*-----------------------------------------------------FUNCTIONS FOR GET------------------------------------------------------------*/    
     
     
     
     /*----------------------------------------------------FUNCTIONS FOR INSERT----------------------------------------------------------*/
     
-        public function insertUser(User $user) {  
+        public function insertUser(User $user, $emailUser, $passUser) {  
             $newUser = $user->getUser();
-            $emailUser = $user->getEmailUser();
-            $passUser = $user->getPassUser();
+            $statutUser = "";
 
-            $stmt = self::$_instance_db->prepare("INSERT INTO users (type_user, level_right, lastname, firstname, email_user, pass_user, favoris_cms_id, date_subscribe) VALUES (:typeUser, :levelRight, :lastName, :firstName, :emailUser, :passUser, :favorisCmsId, :dateSubscribe)");
+            $stmt = self::$_instance_db->prepare("INSERT INTO users (firstname, lastname, email_user, pass_user, type_user, level_user, statut_user, date_of_birth, postal_code, adress) VALUES (:firstname, :lastname, :emailUser, :passUser, :typeUser, :levelUser, :statutUser, :dateOfBirth, :postalCode, :adress)");
 
-                $typeUser = self::$_typeUser[3][0];
-                $stmt->bindParam(':typeUser', $typeUser); 
-                
-                $levelRight = self::$_typeUser[3][1];
-                $stmt->bindParam(':levelRight', $levelRight, \PDO::PARAM_INT); 
+                $firstname = $newUser['firstname'];
+                $stmt->bindParam(':firstname', $firstname, \PDO::PARAM_STR); 
 
-                $lastName = $this->testStringEntry($newUser['lastname']);
-                $stmt->bindParam(':lastName', $lastName);
-                    
-                $firstName = $this->testStringEntry($newUser['firstname']);
-                $stmt->bindParam(':firstName', $firstName); 
+                $lastname = $newUser['lastname'];
+                $stmt->bindParam(':lastname', $lastname, \PDO::PARAM_STR); 
 
-                $emailUser = $this->testStringEntry($emailUser);
-                $stmt->bindParam(':emailUser', $emailUser);
+                $stmt->bindParam(':emailUser', $emailUser, \PDO::PARAM_STR);
 
-                $passUser = $this->testStringEntry($passUser);
                 $passUser = md5($passUser."#AKph780MP5/*5dchhww0?/#lPOO");
-                $stmt->bindParam(':passUser', $passUser);
+                $stmt->bindParam(':passUser', $passUser, \PDO::PARAM_STR); 
 
-            if  (in_array($newUser['favoris_cms'], self::$_cms)) {
-                $cmsFavoris = $newUser['favoris_cms'];
+                if (in_array($newUser['type_user'], self::$_typeUser)) {
+                    $typeUser = $newUser['type_user']; 
+                    $stmt->bindParam(':typeUser', $typeUser, \PDO::PARAM_STR); 
+                
+                    $levelUser = array_keys(self::$_typeUser, $newUser['type_user']); 
+                    $stmt->bindParam(':levelUser', $levelUser[0], \PDO::PARAM_INT); 
 
-                    $stmtTakeId = self::$_instance_db->prepare("SELECT id FROM cms WHERE cms_name = :cmsFavoris"); 
-                    $stmtTakeId->bindParam(':cmsFavoris', $cmsFavoris); 
-                    $stmtTakeId->execute();                  
-                        $rowCmsId = $stmtTakeId->fetchAll(\PDO::FETCH_ASSOC); 
-                        $favorisCmsId = $rowCmsId[0]['id']; 
+                    if ($levelUser < 3) {
+                        $statutUser = self::$_statutUser[1]; 
+                    } else { 
+                        $statutUser = self::$_statutUser[0];
+                    } 
+                    $stmt->bindParam(':statutUser', $statutUser, \PDO::PARAM_STR); 
+                } 
 
-                $stmt->bindParam(':favorisCmsId', $favorisCmsId, \PDO::PARAM_INT); 
+                $dateOfBirth = $newUser['date_of_birth'];
+                $stmt->bindParam(':dateOfBirth', $dateOfBirth, \PDO::PARAM_STR); 
+
+                $postalCode = (int)$newUser['postal_code']; 
+                $stmt->bindParam(':postalCode', $postalCode, \PDO::PARAM_INT);
+
+                $adress = $newUser['adress'];
+                $stmt->bindParam(':adress', $adress, \PDO::PARAM_STR); 
+
+                    if (!$stmt->execute()) {
+                        var_dump($stmt->errorInfo());
+                    } else {
+                        $currentUser = $this->getCurrentUser($emailUser, $firstname, $lastname);
                         
-            } else {
-                return;
-              } 
+                        $toUserId = (int)$currentUser[0]['id'];
+                        $typeUser = $currentUser[0]['type_user']; 
+                        $currentFullName = $currentUser[0]['firstname']. ' - ' .$currentUser[0]['lastname'];
+                        $terminationDate = "";
+                        $levelUser = (int)$currentUser[0]['level_user']; 
 
-                $dateSubscribe = Date('Y-m-d');
-                $stmt->bindParam(':dateSubscribe', $dateSubscribe); 
+                        if ($levelUser > 2) {
 
-                    $stmtVerifExist = self::$_instance_db->prepare("SELECT id FROM users WHERE email_user = :emailUser AND lastname = :lastName");
-                    $stmtVerifExist->bindParam(':emailUser', $emailUser); 
-                    $stmtVerifExist->bindParam(':lastName', $lastName);
-                    $stmtVerifExist->execute();                  
-                    $rowUserUniq = $stmtVerifExist->fetchAll(\PDO::FETCH_ASSOC); 
+                            $this->insertRegistrationByUser($toUserId, $typeUser, $currentFullName);
 
-                        if (count($rowUserUniq) > 0) {
-                            header('Location: ' .LOGIN. '?user=user-exist');
-                            exit;
-                        } else if ($stmt->execute()) {
-                                $userId = $this->getUserId($emailUser, $lastName); 
-
-                                $this->_datas_cms['cms_id'] = (int)$favorisCmsId;
-                                $this->_datas_cms['favoris_user_id'] = $userId[0]["id"]; 
-
-                                    $rowUsedCms = $this->getUsedCms(); 
-
-                                    if (count($rowUsedCms) < 1) {
-                                        $this->insertUsedCms();
-                                            header('Location: ' .LOGIN. '?user=user-insert');
-                                            exit;
-                                    } else {
-                                        return; // voir pour logger les infos vers administrator en cas de passage ici
-                                    }
+                        } else {
+                            //$this->insertRegistrationByModerator($byUserId, $toUserId, $typeUser, $registrationDate, $terminationDate, $byFullName, $toFullName);
                         }
+                        return;
+                      }
         }
     
     
-        private function insertUsedCms() {
-            $stmt = self::$_instance_db->prepare("INSERT INTO used_cms (cms_id, favoris_user_id) VALUES (:cmsId, :favorisUserId)");
-                $stmt->bindParam(':cmsId', $this->_datas_cms['cms_id']); 
-                $stmt->bindParam(':favorisUserId', $this->_datas_cms['favoris_user_id']);
-                $stmt->execute();
+        private function insertRegistrationByUser($toUserId, $typeUser, $currentFullName) {
+            $stmt = self::$_instance_db->prepare("INSERT INTO registrations (to_user_id, recording_type, registration_date, to_full_name) VALUES (:toUserId, :recordingType, :registrationDate, :toFullName)");
+
+            $stmt->bindParam(':toUserId', $toUserId, \PDO::PARAM_INT); echo $toUserId. "<br>";
+
+            $stmt->bindParam(':recordingType', $typeUser, \PDO::PARAM_STR); echo $typeUser. "<br>";
+
+            $registrationDate = Date('Y-m-d');
+            $stmt->bindParam(':registrationDate', $registrationDate); echo $registrationDate. "<br>";
+
+            $stmt->bindParam(':toFullName', $currentFullName, \PDO::PARAM_STR); echo $currentFullName. "<br>";
+
+            if ($stmt->execute()) {
+                header('Location: ' .REGISTER. '?msg-status=succes-registration');
+                exit;
+            } else {
+                //var_dump($stmt->errorInfo());
+                return;
+            }                 
         }
     
     /*----------------------------------------------------FUNCTIONS FOR INSERT----------------------------------------------------------*/

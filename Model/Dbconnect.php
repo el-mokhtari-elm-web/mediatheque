@@ -4,7 +4,9 @@ namespace media_library;
 class Dbconnect {
 
 protected static $_instance_db;
-protected static $_typeUser = [1 => ["administrator", 1], ["editor", 2], ["user_subscriber", 3]]; // property for control before insertion in bdd
+
+protected static $_typeUser = [1 => "administrator", 2 => "employe", 3 => "user_subscriber"]; // property for control before insertion in bdd
+protected static $_statutUser = ["en attente", "actif"];
 
 public static function dateToFrench($date, $format) {
     $english_days = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');

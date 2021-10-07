@@ -4,7 +4,7 @@
 
         var links = document.getElementsByTagName("a"); 
         var navBarToggler = document.getElementById("navbar-toggler");
-        var navBarNav = document.getElementsByTagName("li");
+        var navBarNav = document.getElementById("nav-height").getElementsByTagName("li");
         var navBarResponsiv = document.getElementById("navbarResponsive");
         var hide = document.getElementById("hide");
 

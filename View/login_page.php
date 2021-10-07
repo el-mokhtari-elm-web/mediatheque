@@ -1,15 +1,15 @@
 <?php
 session_start();
 
-  require_once("../Config/config.php");
-  require_once("header_page.php");
-  require_once("../Controller/process_logout.php");
+require_once("../Config/config.php");
+require_once("header_page.php");
+require_once("../Controller/process_logout.php");
 
-  $msgEmpty = "Les deux champs sont obligatoires";
-  $msgIncomplete = "Les deux champs doivent avoir entre 12 et 30 charactères";
-  $msgUnknown = "Utilisateur non reconnu";
-  $userExist = "Cet utilisateur éxiste déjà, connectez vous.";
-  $userInsert = "Insertion éffectué avec succès, vous pouvez vous connectez.";
+$msgEmpty = "Les deux champs sont obligatoires";
+$msgIncomplete = "Les deux champs doivent avoir entre 12 et 30 charactères";
+$msgUnknown = "Utilisateur non reconnu";
+$userExist = "Cet utilisateur éxiste déjà, connectez vous.";
+$userInsert = "Insertion éffectué avec succès, vous pouvez vous connectez.";
 ?>
 
     <body class="d-flex column justify-content-center pt-1 align-items-center bg-section-register">
@@ -26,12 +26,18 @@ session_start();
 
                     <div class="form-group my-4">
                         <label for="username" class="d-inline m-auto col-lg-10 text-left text-dark">Email :</label><br>
-                        <input type="text" id="username" class="d-block m-auto form-control col-lg-10 text-center" name="email" >
+                        <input type="text" id="username" class="d-block m-auto form-control col-lg-10 text-left" name="email" >
                     </div>
 
                     <div class="form-group my-4">
                         <label for="password" class="d-inline m-auto col-lg-10 text-left text-dark">Mot de passe :</label><br>
-                        <input type="text" id="password" class="d-block m-auto form-control col-lg-10 text-center" name="pass_user" >
+                        <input type="text" id="password" class="d-block m-auto form-control col-lg-10 text-left" name="pass_user" >
+                    </div>
+
+                    <div class="form-group my-4">
+                        <input type="submit" class="d-block m-auto w-75 btn btn-info btn-md py-3 submit" value="Connexion" name="submit">
+                        <p class="msg-login"><?php if (isset($_GET['message'])) { if ($_GET['message'] === "empty") { echo $msgEmpty; } else if ($_GET['message'] === "unknown") { echo $msgUnknown; } else if ($_GET['message'] === "incomplete") { echo $msgIncomplete; } else {false;} echo '<a class="msg-login" href="login_page.php">X</a>'; } ?></p>
+                        <p><?php if (isset($_GET['user']) && $_GET['user'] !== "unconnected") { if ($_GET['user'] === "user-insert") { echo $userInsert; } else if ($_GET['user'] === "user-exist") { echo $userExist; } echo '<a href="login_page.php">X</a>'; } ?></p>
                     </div>
                                   
                     <div id="register-link" class="w-25 m-auto mt-3">

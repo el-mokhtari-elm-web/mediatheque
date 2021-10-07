@@ -22,6 +22,7 @@ define ("STYLES_GLOBAL", "/media-library/css/styles-global.css");
 define ("INDEX_JS", "/media-library/index.js");
 define ("LIBRARY_JS", "/media-library/js/library.js");
 define ("LOGIN_JS", "/media-library/js/loginpage.js");
+define ("REGISTER_JS", "/media-library/js/registerpage.js");
 define ("ADMIN_JS", "/media-library/js/admin.js");
 define ("BOOKING_JS", "/media-library/js/booking.js");
 define ("JQUERY", "/media-library/node_modules/jquery/dist/jquery.min.js");

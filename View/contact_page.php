@@ -14,16 +14,16 @@ session_start();
             require_once("modal_cookies.php");
         ?>
 
-        <div class="d-flex row justify-content-center align-items-center">
-          <div class="container w-75 px-2 contact">
-              <div class="row bloc-contact">
-                  <div class="col-md-3 mb-5 bloc-contact-infos">
+        <section class="d-flex row justify-content-center align-items-center">
+          <aside class="container w-75 px-2 contact">
+              <aside class="row bloc-contact">
+                  <aside class="col-md-3 mb-5 bloc-contact-infos">
                       <div class="contact-infos">
                           <img src="../assets/svg/contact.svg" class="img-contact" alt="image"/>
                           <h2>Contactez nous</h2>
                           <h4>Et nous vous répondons !</h4>
                       </div>
-                  </div>
+                  </aside>
 
                   <form id="login-form" class="col-md-9 py-2 mb-5 contact-form" action="" method="post" name="form_contact">
                       <div class="form-group py-2">
@@ -62,9 +62,9 @@ session_start();
                           </div>
                       </div>
                   </form>
-              </div>
-          </div>
-        </div>
+              </aside>
+          </aside>
+        </section>
 
         <?php require_once("footer_min.php"); ?>
 

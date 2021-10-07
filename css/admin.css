@@ -1,0 +1,94 @@
+/************************** admin *****************************/
+
+@media screen and (max-width: 800px) {
+    .accueil-admin {
+        width: 100%;
+        font-size: 13px;
+        font-weight: bold;
+    }
+}
+
+.table-users {
+    max-height: 450px;
+    overflow-y: scroll;
+}
+
+.table-users tr {
+    border-bottom: 0.5px solid gainsboro;
+}
+
+.update-admin {
+    width: 21px;
+    height: 21px;
+    background-image: url(../assets/svg/update.svg);
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: 0px solid transparent;
+    vertical-align: middle;
+}
+
+.delete-admin {
+    width: 21px;
+    height: 21px;
+    background-image: url(../assets/svg/delete.svg);
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: 0px solid transparent;
+    vertical-align: middle;
+}
+
+.block-update-admin, .block-delete-admin {
+    width: 27px;
+    height: 27px;
+    margin: auto;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.block-update-admin {
+    background-color: rgb(204, 243, 146);
+}
+
+.block-delete-admin {
+    background-color: rgb(238, 127, 127);
+}
+
+.block-update-admin:hover { 
+    background-color: rgb(96, 153, 10);
+}
+.block-delete-admin:hover { 
+    background-color: rgb(218, 57, 29);
+}
+
+/*.custom-file {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    margin-bottom: 0;
+}
+
+.custom-file-input {
+
+    z-index: 2;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    margin: 0;
+    opacity: 0;
+}
+
+.custom-file-label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    height: calc(1.5em + .75rem + 5px);
+    padding: .375rem .75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #636568;
+    background-color: rgb(179, 172, 172);
+    border-radius: .25rem;
+}*/
+/************************** admin *****************************/

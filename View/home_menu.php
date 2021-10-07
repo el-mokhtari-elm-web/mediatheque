@@ -18,26 +18,29 @@
                 <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === CONTACT) { echo 'active'; } ?>">
                   <a class="nav-link" href="<?php echo CONTACT; ?>">Contact</a>
                 </li>
+                                <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === CONTACT) { echo 'active'; } ?>">
+                  <a class="nav-link" href="<?php echo CONTACT; ?>">Infos coronavirus</a>
+                </li>
             </ul>
 
-            <ul class="navbar-nav ml-auto nav-login text-center">
+            <ul class="navbar-nav ml-auto nav-login-connex">
 
                 <?php
-                  //if (!isset($_SESSION['uniqId'])) :
+                  if (!isset($_SESSION['uniqId'])) :
                 ?>
 
                 <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === LOGIN) { echo 'active'; } ?>">
                     <a class="nav-link" href="<?php echo LOGIN; ?>">Connexion</a>
                 </li>
 
-
                 <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === REGISTER) { echo 'active'; } ?>">
                     <a class="nav-link" href="<?php echo REGISTER; ?>">S'inscrire</a>
                 </li>
 
                 <?php
-                  //endif;
+                  endif;
                 ?>
+                
 
                 <?php
                   if ((isset($_SESSION['uniqId'])) && ($_SERVER["REQUEST_URI"] !== ADMIN)) :
@@ -60,11 +63,9 @@
                   endif;
                 ?>
 
-                <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === CONTACT) { echo 'active'; } ?>">
-                  <a class="nav-link" href="<?php echo INFOS_CORONAVIRUS; ?>">Infos coronavirus</a>
-                </li>
-
             </ul>
+
+
           </div>
     </div>
 </nav>
