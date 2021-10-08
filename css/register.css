@@ -19,16 +19,16 @@
 }
 
 .section-register { 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
+    position: relative; 
     min-width: 100%;
     min-height: 100%;
+    overflow: scroll;
     background-color: cornflowerblue;
 }
 
 .bg-section-register { 
     background-color: cornflowerblue;
+    padding-bottom: 70px;
 }
 
 .register  {

@@ -170,39 +170,7 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
                   <div class="d-flex text-success"><span class="position-relative">⬍</span></div>
                 </div>
 
-
-
-
-
-                <div>
-                    <form class="d-block card my-3 px-3 pt-3 pb-4" method="post" name="form-tutos" enctype="multipart/form-data">
-                        <h3 class="text-info">Ajouter un Employé</h3>
-
-                        <div class="form-group">
-                            <label for="title_book">Titre</label>
-                            <input type="text" class="form-control" id="title_book" placeholder="titre">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="author_book">Auteur</label>
-                            <input type="text" class="form-control" id="author_book" placeholder="auteur">
-                        </div>
-
-                        <div class="custom-file mt-2">
-                            <label class="custom-file-label" for="img-book">Choisir une illustration
-                                <input type="file" id="img-book" class="custom-file-input my-1" name="img_books[]" value="tutos" multiple="multiple">
-                            </label>
-                        </div>
-
-                        <input type="submit" class="d-block btn btn-secondary w-100 mx-auto mt-5 mb-1 py-3 px-5" name="submit" value="envoyer">
-                    </form>
-                </div>
-
-
-
-
-
-              <div class="row gutters-sm mt-4">
+                <div class="row gutters-sm mt-4">
                   <div class="col-sm-6 mb-3">
                     <div class="card h-100">
                       <div class="card-body">

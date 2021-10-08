@@ -60,17 +60,17 @@
     background-color: rgb(218, 57, 29);
 }
 
-/*.custom-file {
+.custom-file {
     position: relative;
     display: inline-block;
     width: 100%;
     height: calc(1.5em + .75rem + 2px);
-    margin-bottom: 0;
+    margin-top: 10px;
+    z-index: 5;
 }
 
 .custom-file-input {
-
-    z-index: 2;
+    z-index: 5;
     width: 100%;
     height: calc(1.5em + .75rem + 2px);
     margin: 0;
@@ -87,8 +87,23 @@
     padding: .375rem .75rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #636568;
-    background-color: rgb(179, 172, 172);
+    background-color: rgb(230, 230, 230);
     border-radius: .25rem;
-}*/
+}
+
+.custom-file-label::after {
+    content: "Choisir";
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    width: 25%;
+    height: calc(1.5em + .75rem + 5px);
+    padding: .375rem .75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: rgb(116, 116, 116);
+    color: white;
+    border-radius: 0 .25rem .25rem 0;
+}
 /************************** admin *****************************/

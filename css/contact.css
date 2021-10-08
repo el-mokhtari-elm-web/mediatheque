@@ -22,7 +22,8 @@
 }
 
 .contact {
-    height: max-content;
+    height: 100%;
+    overflow: scroll;
     padding: 0;
     text-align: center;
 }
