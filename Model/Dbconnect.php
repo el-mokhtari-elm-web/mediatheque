@@ -6,7 +6,7 @@ class Dbconnect {
 protected static $_instance_db;
 
 protected static $_typeUser = [1 => "administrator", 2 => "employe", 3 => "user_subscriber"]; // property for control before insertion in bdd
-protected static $_statutUser = ["en attente", "actif"];
+protected static $_statutUser = ["non actif", "actif"];
 
 public static function dateToFrench($date, $format) {
     $english_days = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');

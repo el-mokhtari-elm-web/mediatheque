@@ -36,8 +36,8 @@ $userInsert = "Insertion éffectué avec succès, vous pouvez vous connectez.";
 
                     <div class="form-group my-4">
                         <input type="submit" class="d-block m-auto w-75 btn btn-info btn-md py-3 submit" value="Connexion" name="submit">
-                        <p class="msg-login"><?php if (isset($_GET['message'])) { if ($_GET['message'] === "empty") { echo $msgEmpty; } else if ($_GET['message'] === "unknown") { echo $msgUnknown; } else if ($_GET['message'] === "incomplete") { echo $msgIncomplete; } else {return;} echo '<a class="d-inline-block w-25 mt-3 small text-center msg-login" href="login_page.php">❌</a>'; } ?></p>
-                        <p><?php if (isset($_GET['user']) && $_GET['user'] !== "unconnected") { if ($_GET['user'] === "user-insert") { echo $userInsert; } else if ($_GET['user'] === "user-exist") { echo $userExist; } echo '<a class="d-inline-block w-25 mt-3 small text-center msg-login" href="login_page.php">❌</a>'; } ?></p>
+                        <p class="msg-login"><?php if (isset($_GET['message'])) { if ($_GET['message'] === "empty") { echo $msgEmpty; } else if ($_GET['message'] === "unknown") { echo $msgUnknown; } else if ($_GET['message'] === "incomplete") { echo $msgIncomplete; } else {return;} echo '<a class="d-inline-block px-3 mt-3 small text-center msg-login" href="login_page.php">❌</a>'; } ?></p>
+                        <p><?php if (isset($_GET['user']) && $_GET['user'] !== "unconnected") { if ($_GET['user'] === "user-insert") { echo $userInsert; } else if ($_GET['user'] === "user-exist") { echo $userExist; } echo '<a class="d-inline-block px-3 mt-3 small text-center msg-login" href="login_page.php">❌</a>'; } ?></p>
                     </div>
                                   
                     <div id="register-link" class="w-25 m-auto text-center mt-3">

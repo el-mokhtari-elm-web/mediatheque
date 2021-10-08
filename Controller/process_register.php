@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
     if (empty($firstname) || empty($lastname) || empty($dateOfBirth) || empty($postalCode) || empty($adress) || empty($email) || empty($passUser) || empty($typeUser)) {
         header('Location: ' .REGISTER. '?message=empty'); 
         exit; 
-    } else if (((strlen($firstname) > 30 || strlen($lastname) > 30) || strlen($dateOfBirth) > 10 || strlen($postalCode) > 5 || strlen($adress) > 150 || strlen($email) > 50 || strlen($passUser) > 50 || strlen($typeUser) > 15) OR ((strlen($firstname) < 2 || strlen($lastname) < 3 || strlen($dateOfBirth) < 10 || strlen($postalCode) < 5 || strlen($adress) < 10 || strlen($email) < 5 || strlen($passUser) < 10 || strlen($typeUser) < 7))) {
+    } else if (((strlen($firstname) > 30 || strlen($lastname) > 30) || strlen($dateOfBirth) > 10 || (strlen($postalCode) > 5 || !is_numeric($postalCode)) || strlen($adress) > 150 || strlen($email) > 50 || strlen($passUser) > 50 || strlen($typeUser) > 15) OR ((strlen($firstname) < 2 || strlen($lastname) < 3 || strlen($dateOfBirth) < 10 || strlen($postalCode) < 5 || strlen($adress) < 10 || strlen($email) < 5 || strlen($passUser) < 10 || strlen($typeUser) < 7))) {
         header('Location: ' .REGISTER. '?message=incomplete');
         exit;
       } else {
@@ -46,4 +46,7 @@ if (isset($_POST['submit'])) {
 
         }
 }
+ 
+
+
 

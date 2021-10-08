@@ -24,7 +24,8 @@ class Usermanager extends Dbconnect {
             return $row;
         } else {
             $this->insertUser($newUser, $emailUser, $passUser);
-            return;
+            header('Location: ' .LOGIN. '?message=user-exist');
+            exit;
           }
     }
 
@@ -52,7 +53,7 @@ class Usermanager extends Dbconnect {
     
         public function getUsers() {
             //$stmt = self::$_instance_db->prepare("SELECT * FROM users WHERE email_user NOT IN ('contact.elmweb@gmail.com')");
-            $stmt = self::$_instance_db->prepare("SELECT * FROM users");
+            $stmt = self::$_instance_db->prepare("SELECT DISTINCT registrations.registration_date, users.* FROM registrations INNER JOIN users ON registrations.to_user_id = users.id");
                 $stmt->execute();
                     $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                     return $row;
@@ -122,9 +123,27 @@ class Usermanager extends Dbconnect {
 
                 $adress = $newUser['adress'];
                 $stmt->bindParam(':adress', $adress, \PDO::PARAM_STR); 
+                // voir les logs et le getUserById() qui ne recupere plus l'id en cas de deconnexion
+                // array(3) { [0]=> string(5) "00000" [1]=> NULL [2]=> NULL }
+                // array(3) { [0]=> string(5) "HY000" [1]=> int(1366) [2]=> string(66) "Incorrect integer value: 'fffdd' for column 'postal_code' at row 1" }
+                // array(3) { [0]=> string(5) "42000" [1]=> int(1064) [2]=> string(226) "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'firstname lastname, email_user, pass_user, type_user, level_user, statut_user, d' at line 1" }
 
                     if (!$stmt->execute()) {
-                        var_dump($stmt->errorInfo());
+                        $errors = $stmt->errorInfo();
+
+                        if (!isset($errors)) {
+                            header('Location: ' .REGISTER. '?message=unknow');
+                            exit;
+                        }
+
+                        if ($errors[1] === 1366) {
+                            header('Location: ' .REGISTER. '?message=incorrect');
+                            exit;
+                        } else {
+                            header('Location: ' .REGISTER. '?message=unknow');
+                            exit;
+                        }
+
                     } else {
                         $currentUser = $this->getCurrentUser($emailUser, $firstname, $lastname);
                         

@@ -55,6 +55,7 @@ h3 {
 .logout input {
   border: 2.5px solid black;
   border-radius: 25px;
+  background-color: transparent;
 }
 .logout input:hover {
   border-color: red;

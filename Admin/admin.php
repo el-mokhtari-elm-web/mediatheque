@@ -52,9 +52,9 @@ $delete =   '<picture>
 
         <?php
         //if (isset($_SESSION["uniqId"]) && $_SESSION["level"] === 1) {
-            //require_once("interfaces_administrations/content_admin.php");
+            require_once("interfaces_administrations/content_admin.php");
        // } else if (isset($_SESSION["uniqId"]) && $_SESSION["level"] === 2) {
-            require_once("interfaces_administrations/content_admin_employe.php");
+            //require_once("interfaces_administrations/content_admin_employe.php");
        // } else if (isset($_SESSION["uniqId"]) && $_SESSION["level"] === 3) {
             //require_once("interfaces_administrations/content_admin_subscriber.php");
        // }
