@@ -50,14 +50,12 @@
                     e.stopPropagation();
                     let filesName = e.target.files; 
 
-                if (e.target.files.length === 1) { 
-                    e.target.nextSibling.nextElementSibling.textContent = filesName[0].name;
-                }   else {
-                    e.target.nextSibling.nextElementSibling.textContent = "";
-                        for (let m = 0; m < filesName.length; m++) {
-                            infosDownload.innerText += e.target.files[m].name + "\n";
-                        }
+                if (e.target.files.length > 0) { 
+                    infosDownload.innerText = "";
+                    for (let m = 0; m < filesName.length; m++) {
+                        infosDownload.innerText += e.target.files[m].name + "\n";
                     }
+                }
             })
         }
 

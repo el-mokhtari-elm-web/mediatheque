@@ -50,14 +50,14 @@ $delete =   '<picture>
             require_once("../View/home_menu.php");
         ?>
 
-        <?php
-        //if (isset($_SESSION["uniqId"]) && $_SESSION["level"] === 1) {
+        <?php 
+        if (isset($_SESSION["uniqId"]) && $_SESSION["level"] < 2) {
             require_once("interfaces_administrations/content_admin.php");
-       // } else if (isset($_SESSION["uniqId"]) && $_SESSION["level"] === 2) {
-            //require_once("interfaces_administrations/content_admin_employe.php");
-       // } else if (isset($_SESSION["uniqId"]) && $_SESSION["level"] === 3) {
-            //require_once("interfaces_administrations/content_admin_subscriber.php");
-       // }
+        } else if (isset($_SESSION["uniqId"]) && $_SESSION["level"] === 2) {
+            require_once("interfaces_administrations/content_admin_employe.php");
+          } else if (isset($_SESSION["uniqId"]) && $_SESSION["level"] === 3) {
+              require_once("interfaces_administrations/content_admin_subscriber.php");
+            }
         ?>
 
         <script src="<?php echo JQUERY; ?>"></script>

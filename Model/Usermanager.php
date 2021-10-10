@@ -22,10 +22,10 @@ class Usermanager extends Dbconnect {
                     $row = $stmt->fetchAll(\PDO::FETCH_ASSOC); 
         if (count($row) > 0) {
             return $row;
-        } else {
-            $this->insertUser($newUser, $emailUser, $passUser);
             header('Location: ' .LOGIN. '?message=user-exist');
             exit;
+        } else {
+            $this->insertUser($newUser, $emailUser, $passUser);
           }
     }
 
@@ -101,16 +101,16 @@ class Usermanager extends Dbconnect {
                 $stmt->bindParam(':passUser', $passUser, \PDO::PARAM_STR); 
 
                 if (in_array($newUser['type_user'], self::$_typeUser)) {
-                    $typeUser = $newUser['type_user']; 
-                    $stmt->bindParam(':typeUser', $typeUser, \PDO::PARAM_STR); 
+                    $typeUser = $newUser['type_user']; var_dump(self::$_typeUser);
+                    $stmt->bindParam(':typeUser', $typeUser, \PDO::PARAM_STR); var_dump($typeUser);
                 
-                    $levelUser = array_keys(self::$_typeUser, $newUser['type_user']); 
-                    $stmt->bindParam(':levelUser', $levelUser[0], \PDO::PARAM_INT); 
+                    $levelUser = array_keys(self::$_typeUser, $newUser['type_user']); // array var_dump($levelUser);
+                    $stmt->bindParam(':levelUser', $levelUser[0], \PDO::PARAM_INT); // entry var_dump($levelUser[0]); exit;
 
-                    if ($levelUser < 3) {
-                        $statutUser = self::$_statutUser[1]; 
+                    if ((int)$levelUser[0] > 1 && !isset($newUser['administrateur_id'])) {
+                        $statutUser = self::$_statutUser[0]; // actif
                     } else { 
-                        $statutUser = self::$_statutUser[0];
+                        $statutUser = self::$_statutUser[1]; // non actif
                     } 
                     $stmt->bindParam(':statutUser', $statutUser, \PDO::PARAM_STR); 
                 } 
@@ -127,7 +127,7 @@ class Usermanager extends Dbconnect {
                 // array(3) { [0]=> string(5) "00000" [1]=> NULL [2]=> NULL }
                 // array(3) { [0]=> string(5) "HY000" [1]=> int(1366) [2]=> string(66) "Incorrect integer value: 'fffdd' for column 'postal_code' at row 1" }
                 // array(3) { [0]=> string(5) "42000" [1]=> int(1064) [2]=> string(226) "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'firstname lastname, email_user, pass_user, type_user, level_user, statut_user, d' at line 1" }
-
+                // exit;
                     if (!$stmt->execute()) {
                         $errors = $stmt->errorInfo();
 
@@ -149,23 +149,40 @@ class Usermanager extends Dbconnect {
                         
                         $toUserId = (int)$currentUser[0]['id'];
                         $typeUser = $currentUser[0]['type_user']; 
-                        $currentFullName = $currentUser[0]['firstname']. ' - ' .$currentUser[0]['lastname'];
+                        $toFullName = $currentUser[0]['firstname']. ' - ' .$currentUser[0]['lastname'];
                         $terminationDate = "";
                         $levelUser = (int)$currentUser[0]['level_user']; 
 
-                        if ($levelUser > 2) {
+                            if ($levelUser > 2 && $typeUser !== "administrateur") {
 
-                            $this->insertRegistrationByUser($toUserId, $typeUser, $currentFullName);
+                                $this->insertRegistrationByUser($toUserId, $typeUser, $toFullName);
 
-                        } else {
-                            //$this->insertRegistrationByModerator($byUserId, $toUserId, $typeUser, $registrationDate, $terminationDate, $byFullName, $toFullName);
-                        }
-                        return;
+                            } else {
+
+                                $userId = (int)$newUser['administrateur_id'];
+                                $registerByUser = $this->getUserById($userId);
+
+                                $byFullName = $registerByUser[0]['firstname']. ' - ' .$registerByUser[0]['lastname'];
+                                $byUserId = (int)$registerByUser[0]['id'];
+
+                                echo "<pre>"; var_dump($registerByUser); echo "</pre>";
+                                    ////// test
+                                    if (isset($newUser['administrateur_id'])) {
+                                        echo $newUser['administrateur_id']. " : id"; 
+                                        var_dump($newUser['administrateur_id']);
+                                    } else { echo "rien"; }
+                                    /////// test
+                                //exit;
+                                $this->insertRegistrationByAdminisrator($byUserId, $toUserId, $typeUser, $registrationDate, $byFullName, $toFullName);
+                            
+                            }
+
+                            return;
                       }
         }
     
     
-        private function insertRegistrationByUser($toUserId, $typeUser, $currentFullName) {
+        private function insertRegistrationByUser($toUserId, $typeUser, $toFullName) {
             $stmt = self::$_instance_db->prepare("INSERT INTO registrations (to_user_id, recording_type, registration_date, to_full_name) VALUES (:toUserId, :recordingType, :registrationDate, :toFullName)");
 
             $stmt->bindParam(':toUserId', $toUserId, \PDO::PARAM_INT); echo $toUserId. "<br>";
@@ -175,17 +192,40 @@ class Usermanager extends Dbconnect {
             $registrationDate = Date('Y-m-d');
             $stmt->bindParam(':registrationDate', $registrationDate); echo $registrationDate. "<br>";
 
-            $stmt->bindParam(':toFullName', $currentFullName, \PDO::PARAM_STR); echo $currentFullName. "<br>";
+            $stmt->bindParam(':toFullName', $toFullName, \PDO::PARAM_STR); echo $toFullName. "<br>";
 
             if ($stmt->execute()) {
                 header('Location: ' .REGISTER. '?msg-status=succes-registration');
                 exit;
             } else {
-                //var_dump($stmt->errorInfo());
                 return;
             }                 
         }
-    
+        
+
+        private function insertRegistrationByAdminisrator($byUserId, $toUserId, $typeUser, $registrationDate, $byFullName, $toFullName) {
+            $stmt = self::$_instance_db->prepare("INSERT INTO registrations (by_user_id, to_user_id, recording_type, registration_date, by_full_name, to_full_name) VALUES (:byUserId, :toUserId, :recordingType, :registrationDate, :byFullName, :toFullName)");
+
+            $stmt->bindParam(':byUserId', $byUserId, \PDO::PARAM_INT); echo $byUserId. "<br>";
+
+            $stmt->bindParam(':toUserId', $toUserId, \PDO::PARAM_INT); echo $toUserId. "<br>";
+
+            $stmt->bindParam(':recordingType', $typeUser, \PDO::PARAM_STR); echo $typeUser. "<br>";
+
+            $registrationDate = Date('Y-m-d');
+            $stmt->bindParam(':registrationDate', $registrationDate); echo $registrationDate. "<br>";
+
+            $stmt->bindParam(':byFullName', $byFullName, \PDO::PARAM_STR); echo $byFullName. "<br>";
+
+            $stmt->bindParam(':toFullName', $toFullName, \PDO::PARAM_STR); echo $toFullName. "<br>";
+
+            if ($stmt->execute()) {
+                header('Location: ' .ADMIN. '?msg-status=succes-registration');
+                exit;
+            } else {
+                return;
+            }                 
+        }
     /*----------------------------------------------------FUNCTIONS FOR INSERT----------------------------------------------------------*/
     
 

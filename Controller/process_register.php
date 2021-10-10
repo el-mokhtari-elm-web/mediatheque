@@ -23,6 +23,8 @@ if (isset($_POST['submit'])) {
     $email = trim(htmlspecialchars($_POST["email"]));
     $passUser = trim(htmlspecialchars($_POST["pass_user"])); 
 
+    echo "<pre>"; var_dump($_POST); echo "</pre>";
+
     if (empty($firstname) || empty($lastname) || empty($dateOfBirth) || empty($postalCode) || empty($adress) || empty($email) || empty($passUser) || empty($typeUser)) {
         header('Location: ' .REGISTER. '?message=empty'); 
         exit; 
@@ -38,6 +40,12 @@ if (isset($_POST['submit'])) {
             $user['postal_code'] = $postalCode;
             $user['adress'] = $adress; 
             $user['type_user'] = $typeUser; 
+            if (isset($_POST["administrateur_id"])) {
+            $user['administrateur_id'] = (int)$_POST["administrateur_id"];
+            }
+
+            echo "<pre>"; var_dump($user); echo "</pre>";
+            echo "<pre>"; var_dump($_SESSION); echo "</pre>"; //exit;
 
                 $newUser = new media_library\User($user, $email, $passUser);
                 $newUserManager = new media_library\Usermanager($dbName);

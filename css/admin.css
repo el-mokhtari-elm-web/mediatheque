@@ -1,5 +1,4 @@
 /************************** admin *****************************/
-
 @media screen and (max-width: 800px) {
     .accueil-admin {
         width: 100%;
@@ -60,49 +59,36 @@
     background-color: rgb(218, 57, 29);
 }
 
-.custom-file {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    height: calc(1.5em + .75rem + 2px);
-    margin-top: 10px;
-    z-index: 5;
-}
-
 .custom-file-input {
-    z-index: 5;
     width: 100%;
-    height: calc(1.5em + .75rem + 2px);
-    margin-top: 5%;
+    margin-top: 2%;
     opacity: 0;
 }
 
 .custom-file-label {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 1;
-    height: calc(1.5em + .75rem + 5px);
-    padding: .375rem .75rem;
+    position: relative;
+    display: flex;
+    border: 1px solid silver;
+    align-items: center;
+    padding-left: 15px;
+    font-size: 18px;
+    line-height: 18px;
     font-weight: 400;
-    line-height: 1.5;
-    background-color: rgb(236, 236, 236);
+    justify-content: space-between;
+    background-color: rgb(255, 253, 253);
     border-radius: .25rem;
+    color: rgb(84, 109, 34);
 }
 
 .custom-file-label::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    width: 25%;
-    height: calc(1.5em + .75rem + 5px);
-    padding: .375rem .75rem;
+    content: "📎";
+    display: flex;
+    font-size: 23px;
+    line-height: 23px;
+    height: auto;
+    padding: 3.5% 10%;
     font-weight: 400;
-    line-height: 1.5;
-    background-color: rgb(36, 36, 36);
+    background-color: rgb(236, 236, 236);
     color: white;
     border-radius: 0 .25rem .25rem 0;
 }
