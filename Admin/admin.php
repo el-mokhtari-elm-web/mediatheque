@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+$_typeUser = [2 => "employe", 3 => "user_subscriber"]; 
+$_statutUser = ["non actif", "actif"];
+
 $update =   '<picture>
               <svg height="23px" viewBox="0 0 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" class="update-admin">
                 <g transform="matrix(0.607143,0,0,0.607143,0.785712,0.785712)">
@@ -55,7 +58,7 @@ $delete =   '<picture>
             require_once("interfaces_administrations/content_admin.php");
         } else if (isset($_SESSION["uniqId"]) && $_SESSION["level"] === 2) {
             require_once("interfaces_administrations/content_admin_employe.php");
-          } else if (isset($_SESSION["uniqId"]) && $_SESSION["level"] === 3) {
+          } else if (isset($_SESSION["uniqId"]) && $_SESSION["level"] > 2) {
               require_once("interfaces_administrations/content_admin_subscriber.php");
             }
         ?>

@@ -14,7 +14,7 @@ session_start();
             require_once("modal_cookies.php");
         ?>
 
-        <section class="d-flex row justify-content-center align-items-center">
+        <section class="d-flex row justify-content-center align-items-center section-contact">
           <aside class="container w-75 px-2 contact">
               <aside class="row bloc-contact">
                   <aside class="col-md-3 mb-5 bloc-contact-infos">
@@ -52,7 +52,7 @@ session_start();
 
                       <div class="form-group py-2">
                           <label class="control-label col-sm-8 m-auto col-10" for="message">Votre message <?php if (isset($succes)) : ?><span id="msg-status" class="<?php if ($succes === true) { echo "succes"; } else { echo "failure"; } ?>"><?php if (isset($msg_succes)) { echo $msg_succes; } ?></span><?php endif; ?>
-                              <textarea class="form-control" rows="5" id="message" name="message"></textarea>
+                              <textarea class="form-control" rows="4" id="message" name="message"></textarea>
                           </label>
                       </div>
 

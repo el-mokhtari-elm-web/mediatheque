@@ -1,3 +1,9 @@
+@media screen and (min-width: 300px) AND (max-width: 807px) {
+    .section-a-propos {
+        padding: 5% 0 15%;
+    }
+}
+
 .home-main {
     background: white;
     color:#fff;
@@ -13,6 +19,13 @@
   50% {
     opacity: 0;
   }
+}
+
+.section-a-propos {
+    position: relative; 
+    min-width: 100%;
+    min-height: 100%;
+    overflow: scroll;
 }
 
 .home-main button {
@@ -40,8 +53,7 @@
 }
 
 .home-content2 {
-    background: #adb5bd;
-    padding: 1.4%;
+    margin-top: 5%;
     text-align: center;	
 }
 

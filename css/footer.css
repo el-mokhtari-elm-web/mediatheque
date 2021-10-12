@@ -1,9 +1,13 @@
 /************************** footer ****************************/
-@media screen and (max-width: 770px) {
-.footer-min {
-    margin: auto;
-    text-align: center;
-  }
+@media screen and (max-width: 970px) {
+    .footer-min {
+        margin: auto!important;
+        text-align: center!important;
+    }
+    .footer-rgpd {
+        width: auto!important;
+        text-align: center!important;
+    }
 }
   
 .footer-min a {
@@ -15,7 +19,7 @@
     color: white;
 }
 
-.rgpd {
-    margin-left: 15px;
+.footer-rgpd {
+    margin: 0 auto!important;
 }
 /************************** footer ****************************/

@@ -70,7 +70,6 @@ h3 {
 }
 
 .btn-logout input[type="submit"], .icone-login {
-  margin-left: 50%;
   border-radius: 50%;
   border: 0px solid transparent;
   opacity: 0.5;

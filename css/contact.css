@@ -21,8 +21,14 @@
     }
 }
 
+.section-contact {
+    position: relative; 
+    min-width: 100%;
+    min-height: 100%;
+    overflow: scroll;
+}
+
 .contact {
-    height: 100%;
     overflow: scroll;
     padding: 0;
     text-align: center;

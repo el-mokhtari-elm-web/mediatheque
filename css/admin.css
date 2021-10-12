@@ -16,7 +16,7 @@
     border-bottom: 0.5px solid gainsboro;
 }
 
-.update-admin {
+.update-by-admin {
     width: 21px;
     height: 21px;
     background-image: url(../assets/svg/update.svg);
@@ -26,17 +26,17 @@
     vertical-align: middle;
 }
 
-.delete-admin {
+.delete-by-admin {
     width: 21px;
     height: 21px;
-    background-image: url(../assets/svg/delete.svg);
+    /*background-image: url(../assets/svg/not-available.svg);*/
     background-repeat: no-repeat;
     background-color: transparent;
     border: 0px solid transparent;
     vertical-align: middle;
 }
 
-.block-update-admin, .block-delete-admin {
+.block-update-by-admin, .block-delete-by-admin {
     width: 27px;
     height: 27px;
     margin: auto;
@@ -44,18 +44,18 @@
     text-align: center;
 }
 
-.block-update-admin {
+.block-update-by-admin {
     background-color: rgb(204, 243, 146);
 }
 
-.block-delete-admin {
+.block-delete-by-admin {
     background-color: rgb(238, 127, 127);
 }
 
-.block-update-admin:hover { 
+.block-update-by-admin:hover { 
     background-color: rgb(96, 153, 10);
 }
-.block-delete-admin:hover { 
+.block-delete-by-admin:hover { 
     background-color: rgb(218, 57, 29);
 }
 

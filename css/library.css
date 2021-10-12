@@ -1,5 +1,5 @@
 .container-library {
-    margin-top: 140px;
+    margin-top: 111px;
     color: #1a202c;
     text-align: left;
     background-color: #e2e8f0;    
@@ -12,8 +12,8 @@
 } 
 
 .nav-library {
-    min-height: 70px;
-    margin-top: 57px;
+    min-height: 50px;
+    margin-top: 56px;
     z-index: 2;
 }
 
@@ -181,8 +181,8 @@
 }
 
 .search-bar:hover > .search_icon {
-    background: #158496;
-    color: #e74c3c;
+    border: 0.25px solid slategray;
+    background: #0fcaf0af;
 }
 
 .search_icon {
@@ -193,4 +193,8 @@
     border-radius: 50%;
     color:black;
     text-decoration:none;
+}
+
+.box-sising {
+    box-sizing: content-box;
 }

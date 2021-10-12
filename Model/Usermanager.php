@@ -3,6 +3,7 @@ namespace media_library;
 
 class Usermanager extends Dbconnect {
 
+protected static $_typeUser = [1 => "administrator", 2 => "employe", 3 => "user_subscriber"]; // property for control before insertion in bdd
 
 /*-----------------------------------------------------------USER CHECKED---------------------------------------------------------------*/
 
@@ -53,7 +54,7 @@ class Usermanager extends Dbconnect {
     
         public function getUsers() {
             //$stmt = self::$_instance_db->prepare("SELECT * FROM users WHERE email_user NOT IN ('contact.elmweb@gmail.com')");
-            $stmt = self::$_instance_db->prepare("SELECT DISTINCT registrations.registration_date, users.* FROM registrations INNER JOIN users ON registrations.to_user_id = users.id");
+            $stmt = self::$_instance_db->prepare("SELECT DISTINCT registrations.registration_date, registrations.termination_date, users.* FROM registrations INNER JOIN users ON registrations.to_user_id = users.id");
                 $stmt->execute();
                     $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                     return $row;
@@ -62,9 +63,17 @@ class Usermanager extends Dbconnect {
         public function getUserById($userId) {
             $stmt = self::$_instance_db->prepare("SELECT * FROM users WHERE id = :userId");
                 $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
-                $stmt->execute();
-                    $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                    return $row;
+                    $stmt->execute();
+                        $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                        return $row;
+        }
+
+        public function getUserRegistrationByUserId($userId) {
+            $stmt = self::$_instance_db->prepare("SELECT * FROM registrations WHERE to_user_id = :userId");
+                $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+                    $stmt->execute();
+                        $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                        return $row;
         }
 
         private function getCurrentUser($emailUser, $firstname, $lastname) {
@@ -72,9 +81,9 @@ class Usermanager extends Dbconnect {
                 $stmt->bindParam(':emailUser', $emailUser, \PDO::PARAM_STR);
                 $stmt->bindParam(':firstname', $firstname, \PDO::PARAM_STR);
                 $stmt->bindParam(':lastname', $lastname, \PDO::PARAM_STR); 
-                $stmt->execute();
-                    $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                    return $row;
+                    $stmt->execute();
+                        $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                        return $row;
         }
 
     /*-----------------------------------------------------FUNCTIONS FOR GET------------------------------------------------------------*/    
@@ -101,7 +110,7 @@ class Usermanager extends Dbconnect {
                 $stmt->bindParam(':passUser', $passUser, \PDO::PARAM_STR); 
 
                 if (in_array($newUser['type_user'], self::$_typeUser)) {
-                    $typeUser = $newUser['type_user']; var_dump(self::$_typeUser);
+                    $typeUser = $newUser['type_user']; 
                     $stmt->bindParam(':typeUser', $typeUser, \PDO::PARAM_STR); var_dump($typeUser);
                 
                     $levelUser = array_keys(self::$_typeUser, $newUser['type_user']); // array var_dump($levelUser);
@@ -153,7 +162,7 @@ class Usermanager extends Dbconnect {
                         $terminationDate = "";
                         $levelUser = (int)$currentUser[0]['level_user']; 
 
-                            if ($levelUser > 2 && $typeUser !== "administrateur") {
+                            if ($levelUser > 2 && !isset($newUser['administrateur_id'])) {
 
                                 $this->insertRegistrationByUser($toUserId, $typeUser, $toFullName);
 
@@ -232,12 +241,17 @@ class Usermanager extends Dbconnect {
 
     /*----------------------------------------------------FUNCTIONS FOR UPDATE----------------------------------------------------------*/
 
-    public function updateStatutUser($userId, $levelRight, $typeUser) { 
-        $stmt = self::$_instance_db->prepare("UPDATE users SET level_right = :levelRight, type_user = :typeUser WHERE id = :userId");
+    public function updateStatutUser($userId, $fullName, $statutUser, $toUserId) { 
+        $stmt = self::$_instance_db->prepare("UPDATE registrations SET by_user_id = :userId, by_full_name = :fullName WHERE to_user_id = :toUserId");
             $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
-            $stmt->bindParam(':levelRight', $levelRight, \PDO::PARAM_INT);
-            $stmt->bindParam(':typeUser', $typeUser, \PDO::PARAM_STR); 
-                $stmt->execute();
+            $stmt->bindParam(':fullName', $fullName, \PDO::PARAM_STR); 
+            $stmt->bindParam(':toUserId', $toUserId, \PDO::PARAM_INT);
+                if ($stmt->execute()) {
+                    $stmt = self::$_instance_db->prepare("UPDATE users SET statut_user = :statutUser WHERE id = :userId");
+                        $stmt->bindParam(':statutUser', $statutUser, \PDO::PARAM_STR);
+                        $stmt->bindParam(':userId', $toUserId, \PDO::PARAM_INT);
+                            $stmt->execute();
+                }
     }
 
     /*----------------------------------------------------FUNCTIONS FOR UPDATE----------------------------------------------------------*/
@@ -246,18 +260,32 @@ class Usermanager extends Dbconnect {
 
     /*----------------------------------------------------FUNCTIONS FOR DELETE----------------------------------------------------------*/
     
-        public function deleteUser($id) {    
-            $stmt = self::$_instance_db->prepare('DELETE from users WHERE id = :id');
-                $stmt->bindParam(':id', $id);
-                $stmt->execute();
-                    if ($stmt->execute()) {
-                        $stmt = self::$_instance_db->prepare('DELETE from used_cms WHERE favoris_user_id = :id');
-                            $stmt->bindParam(':id', $id);
-                                $stmt->execute();
-                    }
+        public function deleteUser($userId) {    
+            $stmt = self::$_instance_db->prepare("SELECT termination_date FROM registrations WHERE to_user_id = :userId");
+                $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+                    $stmt->execute();
+                        $row = $stmt->fetchAll(\PDO::FETCH_ASSOC); 
+                    
+                            if (!isset($row[0]['termination_date'])) {
+
+                                $stmt = self::$_instance_db->prepare("UPDATE registrations SET termination_date = :terminationDate WHERE to_user_id = :userId");
+                                    $terminationDate = Date('Y-m-d');
+                                        $stmt->bindParam(':terminationDate', $terminationDate);
+                                        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+                                            $stmt->execute();
+                                            return;
+                            } else {
+                                $stmt = self::$_instance_db->prepare('DELETE FROM users WHERE id = :userId');
+                                    $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+                                    
+                                        if ($stmt->execute()) {
+                                            $stmt = self::$_instance_db->prepare('DELETE FROM registrations WHERE to_user_id = :userId');
+                                                $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+                                                    $stmt->execute();
+                                        } else {return;}
+                            }
         }
-    
-    }
     
     /*----------------------------------------------------FUNCTIONS FOR DELETE----------------------------------------------------------*/
 
+}

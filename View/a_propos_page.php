@@ -12,26 +12,28 @@
             require_once("home_menu.php");
         ?>
 
-        <section class="container-fluid d-block w-50 m-auto text-center">
-            <h2>ELM web services<span class="blinker">.</span></h2>
-            <button type="button" class="btn btn-default">Loi et Confidentialité</button>
-        </section>
+        <section class="d-flex row justify-content-center align-items-center section-a-propos">
+            <section class="container-fluid d-block w-50 m-auto text-center">
+                <h2>ELM web services<span class="blinker">.</span></h2>
+                <button type="button" class="d-inline-block my-4 btn btn-default">Loi et Confidentialité</button>
+            </section>
 
-        <section class="container-fluid home-content1">
-            <article class="row">
-                <aside class="col-md-6 content1-left">
-                    <h3>Why to use Bootstrap <span class="blinker">?</span></h3>
-                    <p>Build responsive, mobile-first projects on the web with the world’s most popular front-end component library.</p>
-                </aside>
-                    
-                <aside class="col-md-6 content1-right">
-                    <p>Bootstrap is an open source toolkit for developing with HTML, CSS, and JS. Quickly prototype your ideas or build your entire app with our Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful plugins built on jQuery.</p>
-                </aside>
-            </article>
-        </section>
+            <section class="container-fluid home-content1">
+                <article class="row">
+                    <aside class="col-md-6 content1-left">
+                        <h3>Why to use Bootstrap <span class="blinker">?</span></h3>
+                        <p>Build responsive, mobile-first projects on the web with the world’s most popular front-end component library.</p>
+                    </aside>
+                        
+                    <aside class="col-md-6 content1-right">
+                        <p>Bootstrap is an open source toolkit for developing with HTML, CSS, and JS. Quickly prototype your ideas or build your entire app with our Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful plugins built on jQuery.</p>
+                    </aside>
+                </article>
+            </section>
 
-        <section class="container-fluid home-content2">
-            <p><span>News</span> and <span>announcements</span> for all things <span>Bootstrap</span>, including new <span>releases</span> and <span>Bootstrap Themes</span>.</p>
+            <section class="container-fluid home-content2">
+                <p><span>News</span> and <span>announcements</span> for all things <span>Bootstrap</span>, including new <span>releases</span> and <span>Bootstrap Themes</span>.</p>
+            </section>
         </section>
 
         <?php 

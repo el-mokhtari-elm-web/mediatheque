@@ -39,10 +39,10 @@ h1 {
     left: 0; 
     min-width: 100%;
     min-height: 100%;
-    /*background-image: url("../assets/png/bg.png");
+    background-image: url("../assets/png/bg.png");
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center center;*/
+    background-position: center center;
 }
 
 .home-buttons {
