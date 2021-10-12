@@ -7,6 +7,10 @@
     background-color: cornflowerblue;
 }
 
+.form-connexion {
+    margin: 0 auto 9%;
+}
+
 .login  {
     max-width: 50%;
     border: 2px solid #ffffff;

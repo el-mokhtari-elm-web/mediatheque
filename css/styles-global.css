@@ -6,6 +6,7 @@
 @import url("rgpd.css");
 @import url("modal-cookies.css");
 @import url("library.css");
+@import url("page-product.css");
 @import url("admin.css");
 
 @font-face {
@@ -17,6 +18,10 @@ body {
   margin-top: 80px;
   height: max-content;
   overflow: scroll;
+}
+
+.nav-principal {
+  margin-inline-end: 2vw;
 }
 
 li {
@@ -31,17 +36,6 @@ h3 {
   min-width: 30%;
   margin: 1% auto 3%;
   text-align: center;
-}
-
-.form-connexion {
-  margin: 0 auto 9%;
-}
-
-.menu-admin {
-  display: flex;
-  align-items: center;
-  position: relative;
-  min-height: 55px;
 }
 
 .logout {
@@ -71,9 +65,13 @@ h3 {
 
 .btn-logout input[type="submit"], .icone-login {
   border-radius: 50%;
+  margin-inline-start: 9px;
   border: 0px solid transparent;
   opacity: 0.5;
   vertical-align: middle;
+}
+.btn-logout {
+  margin-inline-start: 1vw;
 }
 
 .btn-logout input[type="submit"] {
@@ -103,6 +101,8 @@ h3 {
 .logout-subscriber input:hover {
   border-color: red;
 }
+
+
 
 
 

@@ -7,6 +7,13 @@
     }
 }
 
+.menu-admin {
+    display: flex;
+    align-items: center;
+    position: relative;
+    min-height: 55px;
+}
+
 .table-users {
     max-height: 450px;
     overflow-y: scroll;
@@ -29,7 +36,6 @@
 .delete-by-admin {
     width: 21px;
     height: 21px;
-    /*background-image: url(../assets/svg/not-available.svg);*/
     background-repeat: no-repeat;
     background-color: transparent;
     border: 0px solid transparent;

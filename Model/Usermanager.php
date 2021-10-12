@@ -254,6 +254,40 @@ protected static $_typeUser = [1 => "administrator", 2 => "employe", 3 => "user_
                 }
     }
 
+    public function updateTypeUser($byUserId, $userId, $typeUser) { 
+        $stmt = self::$_instance_db->prepare("UPDATE users SET level_user = :levelUser, type_user = :typeUser WHERE id = :userId");
+            
+            $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+
+            $levelUser = array_keys(self::$_typeUser, $typeUser); 
+            $stmt->bindParam(':levelUser', $levelUser[0], \PDO::PARAM_INT); var_dump($levelUser);
+
+            if (in_array($typeUser, self::$_typeUser,)) {
+                $stmt->bindParam(':typeUser', $typeUser, \PDO::PARAM_STR); var_dump($typeUser);
+            } //exit;
+
+            $stmt->execute();
+
+                if ($stmt->execute() === true) {
+                    $byUser = $this->getUserById($byUserId);
+
+                        $stmt = self::$_instance_db->prepare("UPDATE registrations SET by_user_id = :byUserId, recording_type = :typeUser, registration_date = :registrationDate, by_full_name = :byFullName WHERE to_user_id = :toUserId");
+                            $stmt->bindParam(':toUserId', $userId, \PDO::PARAM_INT);
+
+                            $stmt->bindParam(':byUserId', $byUserId, \PDO::PARAM_INT);
+
+                            $stmt->bindParam(':typeUser', $typeUser, \PDO::PARAM_STR); 
+
+                            $registrationDate = Date('Y-m-d');
+                            $stmt->bindParam(':registrationDate', $registrationDate); 
+
+                            $byFullName = $byUser[0]['firstname']. ' - ' .$byUser[0]['lastname'];
+                            $stmt->bindParam(':byFullName', $byFullName, \PDO::PARAM_STR);
+
+                            $stmt->execute();
+                }
+    }
+
     /*----------------------------------------------------FUNCTIONS FOR UPDATE----------------------------------------------------------*/
 
 

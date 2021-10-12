@@ -28,7 +28,7 @@
         }
 
 
-        for (var i = 0; i < rowUser.length; i++) {
+        /*for (var i = 0; i < rowUser.length; i++) {
             
             rowUser[i].addEventListener("change", (e) => {
                 e.stopPropagation();
@@ -48,7 +48,7 @@
                 }
 
             })
-        }
+        }*/
 
 
         // for activation the row in array user by input checkbox in admin to update or delete one user 
@@ -64,20 +64,38 @@
                     let statutSelected = e.target.parentNode.parentNode.getElementsByClassName("statut-selected")[0];
                     let statutInjected = e.target.parentNode.parentNode.getElementsByClassName("statut-injected")[0];
 
+                    let typeSelected = e.target.parentNode.parentNode.getElementsByClassName("type-selected")[0];
+                    let typeInjected = e.target.parentNode.parentNode.getElementsByClassName("type-injected")[0];
+
                     if (e.target.checked === true) {
                         e.target.parentNode.parentNode.getElementsByClassName("update-by-admin")[0].disabled = false;
-                        e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0].disabled = false;
+                        if (e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0] != undefined) {
+                            let checkForDelete = e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0];
+                            checkForDelete.disabled = false; 
+                        } 
 
                         statutSelected.addEventListener("change", (e) => {
                             e.stopPropagation();
                             statutSelected.value = e.target.value;
                             statutInjected.value = statutSelected.value;
+                            console.log(statutInjected.value);
                         })
                         statutInjected.value = statutSelected.value;
 
+                        typeSelected.addEventListener("change", (e) => {
+                            e.stopPropagation();
+                            typeSelected.value = e.target.value;
+                            typeInjected.value = typeSelected.value;
+                            console.log(statutInjected.value);
+                        })
+                        typeInjected.value = typeSelected.value;
+
                     } else {
                         e.target.parentNode.parentNode.getElementsByClassName("update-by-admin")[0].disabled = true;
-                        e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0].disabled = true;
+                        if (e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0] != undefined) {
+                            let checkForDelete = e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0];
+                            checkForDelete.disabled = false; 
+                        } 
                     }
                 }
             })

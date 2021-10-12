@@ -1,0 +1,97 @@
+@media (max-width: 968px) {
+    .title-page {
+        display: block!important;
+        width: 70%!important;
+        margin: auto!important;
+        padding: 7% 0 3%;
+    }
+    .btn-back {
+        display: inline-block!important;
+        margin-top: 2%!important;
+        padding: 0.75% 1.25%!important;
+        font-size: 13px!important;
+        font-weight: bold!important;
+    }
+    .section-book-page {
+        margin: 5% 0!important;
+    }
+    .titre-book {
+        width: 99%!important;
+        margin: 5% auto!important;
+        text-align: center!important;
+    }
+    .infos-book {
+        font-size: 14px!important;
+    }
+    .block-resume-book {
+        width: 99%!important;
+        margin: 5% auto!important;
+        text-align: center!important;
+    }
+    .resume-book {
+        width: 95%!important;
+        margin: auto!important;
+        padding: 3px 1px!important;
+        text-align: center!important;
+    }
+    .btn-check-rent {
+        width: 75%!important;
+        margin-bottom: 10%!important;
+        text-align: 15px!important;
+    }
+}
+
+.section-book-page { 
+    position: relative; 
+    min-width: 100%;
+    min-height: 100%;
+    overflow: scroll;
+    background-color: rgb(233, 233, 233);
+}
+
+.nbr-rent {
+    margin-left: 3%;
+    color: forestgreen;
+}
+
+.resume-book {
+    word-wrap: break-word;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.infos-book {
+    font-size: 17px;
+    font-weight: bold;
+    color:#337ab7;
+}
+
+.rent-book {
+    margin: 3% auto;
+    text-align: center;
+}
+
+.genre, .auteur {
+    width: auto;
+    margin-left: 0;
+    padding: 0.5% 2%;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: silver;
+}
+.genre {
+    border-left: 3.5px solid orangered;
+}
+
+.subscribe {
+    width: 70%;
+    padding: 3.5%;
+    font-size: 1.75vw;
+    text-align: center;
+}
+
+.conditions {
+    font-size: 14px;
+    font-weight: bold;
+}
+

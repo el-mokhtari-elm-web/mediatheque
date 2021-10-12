@@ -5,7 +5,8 @@ define ("A_PROPOS", "/media-library/View/a_propos_page.php");
 define ("CONTACT", "/media-library/View/contact_page.php");
 define ("INFOS_CORONAVIRUS", "/media-library/View/infos_coronavirus.php");
 
-define ("BOOKING", "/media-library/View/premium/booking.php");
+define ("BOOKING", "/media-library/View/library_page.php");
+define ("BOOK_PAGE", "/media-library/View/book_page.php");
 
 define ("LOGIN", "/media-library/View/login_page.php");
 define ("REGISTER", "/media-library/View/register_page.php");
@@ -26,7 +27,8 @@ define ("REGISTER_JS", "/media-library/js/registerpage.js");
 define ("ADMIN_JS", "/media-library/js/admin.js");
 define ("BOOKING_JS", "/media-library/js/booking.js");
 define ("JQUERY", "/media-library/node_modules/jquery/dist/jquery.min.js");
-define ("BOOTSTRAP_JS", "/media-library/node_modules/bootstrap/dist/js/bootstrap.js");
+define ("BOOTSTRAP_JS", "/media-library/node_modules/bootstrap/dist/js/bootstrap.min.js");
+define ("BOOTSTRAP_MODAL", "/media-library/node_modules/bootstrap/js/dist/modal.js");
 
 
 define ("SVG", "/media-library/assets/svg");

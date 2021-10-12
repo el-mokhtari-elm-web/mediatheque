@@ -28,21 +28,22 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
   $userConnected = $newUserManager->getUserById($_SESSION['userId']); 
 
   if (isset($_POST['update_by_admin'])) {
-    //echo "<pre>"; var_dump($_POST); echo "</pre>"; echo "<pre>"; var_dump($userConnected); echo "</pre>";
+    //echo "<pre>"; var_dump($_POST); echo "</pre>"; 
+    //echo "<pre>"; var_dump($userConnected); echo "</pre>";
     //echo $_POST['user_id']; echo $userConnected[0]['id'];
     //echo $_POST['statut_injected'];
     //echo "<pre>"; var_dump($userConnected); echo "</pre>";
 
-    $userIdConnected = (int)$userConnected[0]['id'];
-    $fullNameUserConnected = $userConnected[0]['firstname']. ' - ' .$userConnected[0]['lastname'];
-    $statutInjected = $_POST['statut_injected'];
-    $toUserId = (int)$_POST['user_id'];
+    $userIdConnected = (int)$userConnected[0]['id']; echo $userIdConnected;
+    $fullNameUserConnected = $userConnected[0]['firstname']. ' - ' .$userConnected[0]['lastname']; echo $fullNameUserConnected;
+    $statutInjected = $_POST['statut_injected']; echo $statutInjected. '<br>';
+    $toUserId = (int)$_POST['user_id']; echo $toUserId. '<br>';
 
     $newUserManager->updateStatutUser($userIdConnected, $fullNameUserConnected, $statutInjected, $toUserId);
     $users = $newUserManager->getUsers();
     $userConnected = $newUserManager->getUserById($_SESSION['userId']);
     
-    //$users = $newUserManager->getUsers();
+    $users = $newUserManager->getUsers();
   } else if (isset($_POST['delete_by_admin'])) {
 
 
@@ -152,6 +153,17 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
 
                       <?php 
                         foreach ($users as $key => $user) : 
+
+                          $currentUser = $newUserManager->getUserById($user['id']);
+                            if (isset($_POST['type_injected'])) {
+                              //echo $_POST['statut_injected'];
+                              //echo $currentUser[0]['statut_user']; 
+                              if ($currentUser[0]['type_user'] !== ['type_injected']) {
+                                $typeUser = $_POST['type_injected']; //echo $statutInjected. '<br>';
+                                $newUserManager->updateTypeUser($userIdConnected, $toUserId, $typeUser);
+                                //$currentUser[0]['type_user'] = $typeUser;
+                              }
+                            }
                       ?>
 
                         <tr class="row-user">
@@ -210,7 +222,7 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
                             </td>
 
                             <td class="cell-update">
-                              <form method="post" name="form-update"><input type="hidden" class="statut-injected" name="statut_injected" value=""><input type="hidden" class="update" name="user_id" value="<?php echo $user['id']; ?>"><label class="d-block block-update-by-admin"><input type="submit" name="update_by_admin" class="update-by-admin" value="" disabled></label></form>
+                              <form method="post" name="form-update"><input type="hidden" class="type-injected" name="type_injected" value=""><input type="hidden" class="statut-injected" name="statut_injected" value=""><input type="hidden" class="update" name="user_id" value="<?php echo $user['id']; ?>"><label class="d-block block-update-by-admin"><input type="submit" name="update_by_admin" class="update-by-admin" value="" disabled></label></form>
                             </td>
 
                             <td class="cell-delete">

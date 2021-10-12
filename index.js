@@ -2,6 +2,19 @@
 
     window.addEventListener("DOMContentLoaded", function() {
 
+        $('#launch-modal').on('click', function () {
+            $('#modal-rent-conditions').modal('show')
+            $('#close-modal').modal('hide')
+        })
+          
+        $('#close-modal').on('click', function () {
+            $('#modal-rent-conditions').modal('hide')
+        })
+          
+        $('#close-all').on('click', function () {
+            $('#modal-rent-conditions').modal('hide')
+        })
+
         var links = document.getElementsByTagName("a"); 
         var navBarToggler = document.getElementById("navbar-toggler");
         var navBarNav = document.getElementById("nav-height").getElementsByTagName("li");
@@ -15,7 +28,7 @@
                     a.style.transitionProperty = "height";
 
                     if (a.offsetHeight < 1) {
-                        a.style.height = "350px";
+                        a.style.height = "410px";
                         a.style.transitionDelay = "0.1s";
                         a.style.transitionDuration = "0.3s";
                         

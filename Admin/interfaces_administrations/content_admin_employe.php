@@ -9,17 +9,24 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
   $newUserManager = new media_library\Usermanager($dbName);
 
   $users = $newUserManager->getUsers(); 
-  $user = $newUserManager->getUserById($_SESSION['userId']);
+  $userConnected = $newUserManager->getUserById($_SESSION['userId']); 
 
-  /*if (isset($_POST['update_admin'])) {
-    $newUserManager->updateStatutUser((int)$_POST['user_id'], (int)$typeUsers[1]['level_right'], $_POST['get_type_user']);
+  if (isset($_POST['update_by_admin'])) {
+    //var_dump($_POST['update_by_admin']);
+    //echo "<pre>"; var_dump($_POST); echo "</pre>"; echo "<pre>"; var_dump($userConnected); echo "</pre>";
+    //echo $_POST['user_id']; echo $userConnected[0]['id'];
+    //echo $_POST['statut_injected'];
+    //echo "<pre>"; var_dump($userConnected); echo "</pre>";
+
+    $userIdConnected = (int)$userConnected[0]['id']; echo $userIdConnected;
+    $fullNameUserConnected = $userConnected[0]['firstname']. ' - ' .$userConnected[0]['lastname']; echo $fullNameUserConnected;
+    $statutInjected = $_POST['statut_injected']; echo $statutInjected; 
+    $toUserId = (int)$_POST['user_id']; echo $toUserId;
+
+    $newUserManager->updateStatutUser($userIdConnected, $fullNameUserConnected, $statutInjected, $toUserId);
+
     $users = $newUserManager->getUsers();
-  } else if (isset($_POST['delete_admin'])) {
-    $newUserManager->deleteUser((int)$_POST['get_id_user']);
-    $users = $newUserManager->getUsers();
-    $cmsByUsers = $newUserManager->getCmsByUsers();
-    $usersPremium = $newUserManager->getUsersPremium();
-  }*/
+  }
 
 ?>                       
 
@@ -45,8 +52,8 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
                         <picture><img src="<?php echo SVG.'/user.svg' ?>" alt="admin" width="100px"></picture>
 
                         <div class="mt-3">
-                            <h5><span class="d-inline-block mx-3"><?php echo $user[0]['firstname']; ?></span><span class="d-inline-block"><?php echo $user[0]['lastname']; ?></span></h5>
-                            <p class="text-dark mb-1"><span class="text-muted small mr-2">role :</span><?php echo $user[0]['type_user']; ?></p>
+                            <h5><span class="d-inline-block mx-3"><?php echo $userConnected[0]['firstname']; ?></span><span class="d-inline-block"><?php echo $userConnected[0]['lastname']; ?></span></h5>
+                            <p class="text-dark mb-1"><span class="text-muted small mr-2">role :</span><?php echo $userConnected[0]['type_user']; ?></p>
                         </div>
                         
                         <aside class="d-flex flex-inline justify-content-evenly align-items-center flex-wrap my-3">
@@ -55,8 +62,8 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
                         </aside>
 
                         <aside class="d-flex flex-column justify-content-evenly align-items-evenly">
-                            <p class="text-dark small"><span class="text-muted">Email : </span><span><?php echo $user[0]['email_user']; ?></span></p>
-                            <p class="text-dark small mb-1"><span class="text-muted">Date de naissance : </span><span><?php echo $user[0]['date_of_birth']; ?></span></p>
+                            <p class="text-dark small"><span class="text-muted">Email : </span><span><?php echo $userConnected[0]['email_user']; ?></span></p>
+                            <p class="text-dark small mb-1"><span class="text-muted">Date de naissance : </span><span><?php echo $userConnected[0]['date_of_birth']; ?></span></p>
                         </aside>
 
                     </div>
@@ -146,11 +153,12 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
                         <th scope="col">ID</th>
                         <th scope="col">Prenom</th>
                         <th scope="col">Nom</th>
-                        <th scope="col">Enregistré le</th>
+                        <th scope="col">Enregistrement</th>
+                        <th scope="col">Radiation</th>
                         <th scope="col">Statut</th>
                         <th scope="col">Type</th>
                         <th scope="col"></th>
-                        <th scope="col"></th>
+
                       </tr>
                     </thead>
 
@@ -170,8 +178,10 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
                           
                           <td><?php echo $user['registration_date']; ?></td>
 
+                          <td><?php echo $user['termination_date']; ?></td>
+
                           <td>
-                              <select class="py-1 px-2 border border-none rounded <?php if ($user['statut_user'] === "actif") {echo "border-success";} else {echo "border-warning";} ?>" name="statut_users">
+                              <select class="py-1 px-2 border border-none rounded <?php if ($user['statut_user'] === "actif") {echo "border-success";} else {echo "border-warning";} ?> statut-selected" name="statut_selected">
                                   <?php
                                     if ($user['type_user'] === "administrateur") : 
                                   ?>
@@ -183,7 +193,7 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
                                       for ($i = 0; $i < count($_statutUser); $i++) :
                                   ?>
 
-                                    <option value="<?php echo $user['statut_user']; ?>"<?php if ($user['statut_user'] === $_statutUser[$i]) {echo "selected";} ?>><?php echo $_statutUser[$i]; ?></option>  
+                                    <option value="<?php echo $_statutUser[$i]; ?>"<?php if ($user['statut_user'] === $_statutUser[$i]) {echo "selected";} ?>><?php echo $_statutUser[$i]; ?></option>  
                                     
                                   <?php
                                       endfor;
@@ -192,35 +202,13 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
                               </select>
                             </td>
 
-                            <td>
-                                <select class="py-1 px-2 border border-none rounded" name="types_users">
-                                  <?php
-                                    if ($user['type_user'] === "administrateur") : 
-                                  ?>
+                            <td><?php echo $user['type_user']; ?></td>
 
-                                      <option value="<?php echo $user['type_user']; ?>"><?php echo $user['type_user']; ?></option> 
-
-                                  <?php
-                                  else :                               
-                                        for ($i = 2; $i < count($_typeUser)+2; $i++) :
-                                    ?>
-
-                                      <option value="<?php echo $user['type_user']; ?>"<?php if ($user['type_user'] === $_typeUser[$i]) {echo "selected";} ?>><?php echo $_typeUser[$i]; ?></option>   
-                                      
-                                    <?php
-                                          endfor;
-                                        endif;
-                                    ?>
-                                </select>
+                            <td class="cell-update">
+                              <form method="post" name="form-update"><input type="hidden" class="statut-injected" name="statut_injected" value=""><input type="hidden" class="update" name="user_id" value="<?php echo $user['id']; ?>"><label class="d-block block-update-by-admin"><input type="submit" name="update_by_admin" class="update-by-admin" value="" disabled></label></form>
                             </td>
 
-                            <td>
-                              <form method="post" name="form-update"><input type="hidden" name="get_type_user" value="<?php /*echo $user['type_user']; ?>"><input type="hidden" class="update" id="user" name="user_id" value="<?php echo $user['id'];*/ ?>"><label class="d-block block-update-admin"><input type="submit" name="update_admin" class="update-admin" value="" disabled></label></form>
-                            </td>
 
-                            <td>
-                              <form method="post" name="form-delete"><input type="hidden" name="get_id_user" value="<?php /*echo $user['id']; ?>"><input type="hidden" class="delete" id="user" name="lastname" value="<?php echo $user['lastname'];*/ ?>"><label class="d-block block-delete-admin"><input type="submit" name="delete_admin" class="delete-admin" value="" disabled></label></form>
-                            </td>
                         </tr>
 
                         <?php
@@ -231,89 +219,6 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
                     </tbody>
                   </table>
                 </div>
-
-
-
-
-            <div class="col-md-12 py-3 position-relative"><h3 class="text-info my-0">Livres en attente de reception</h3>
-            
-            <div class="d-flex justify-content-between text-success text-left">
-              <div class="d-flex text-success"><span class="position-relative">⬌</span></div>
-              <div class="d-flex text-success"><span class="position-relative">⬍</span></div>
-            </div>
-
-            <div class="card mb-5 table-users">
-              <table id="table-users" class="table small">
-                <thead>
-                  <tr>
-                    <th scope="col"></th>                        
-                    <th scope="col">ID</th>
-                    <th scope="col">Prenom</th>
-                    <th scope="col">Premium</th>
-                    <th scope="col">Editions</th>
-                    <th scope="col">Posts</th>
-                    <th scope="col">Status</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-
-                <tbody>
-
-                  <?php
-                  /*foreach ($users as $key => $user) : 
-                        $postsForEachUser = $newPostManager->getNbrPostsForEachUser($user['id']);*/
-                  ?>
-
-                    <tr class="row-user">
-                      <td scope="row"><input class="d-inline-block form-check-input mx-auto selected-row" type="checkbox" name="selected-row" <?php //if ($user['type_user'] == $typeUsers[0]['type_user']) {echo "disabled";} ?>></td>
-                      <th scope="row"><?php //echo $user['id']; ?></th>
-                      <td><?php //echo $user['lastname']; ?></td>
-
-                      <td><img src="<?php /* if ((int)$user['cms_premium'] === 0) {echo SVG.'/not-ok.svg';} else {echo SVG.'/ok.svg';} */ ?>" height="13px"></td>
-                      
-                      <td><?php /*echo $user[''];*/ ?>0</td>
-                      <td><?php //echo $postsForEachUser[0]['count_posts']; ?></td>
-                      <td>
-                          <select class="py-1 px-2 border border-none rounded" name="types_users">
-                              <?php                                
-                                //if ($user['type_user'] === $typeUsers[0]['type_user']) :
-                              ?>
-
-                                <option value="<?php /*echo $typeUsers[0]['type_user']; ?>" <?php if (in_array($user['type_user'], $typeUsers[0])) {echo "selected";} if ($user['type_user'] === $typeUsers[0]['type_user']) {echo "disabled";} ?>><?php echo $typeUsers[0]['type_user'];*/ ?>"></option>  
-
-                              <?php
-                                //else :
-                                    //for ($i = 1; $i < count($typeUsers); $i++) :
-                              ?>
-
-                                <option value="<?php /*echo $typeUsers[$i]['type_user']; ?>" <?php if (in_array($user['type_user'], $typeUsers[$i])) {echo "selected";} if ($user['type_user'] === $typeUsers[0]['type_user']) {echo "disabled";} ?>><?php echo $typeUsers[$i]['type_user'];*/ ?>"></option>  
-                                
-                              <?php
-                                    /*endfor;
-                                  endif;
-                                if ($user['type_user'] !== $typeUsers[0]['type_user']) :*/
-                              ?>
-                          </select></td>
-                      <td>
-                        <form method="post" name="form-update"><input type="hidden" name="get_type_user" value="<?php /*echo $user['type_user']; ?>"><input type="hidden" class="update" id="user" name="user_id" value="<?php echo $user['id'];*/ ?>"><label class="d-block block-update-admin"><input type="submit" name="update_admin" class="update-admin" value="" disabled></label></form>
-                      </td>
-                      <td>
-                        <form method="post" name="form-delete"><input type="hidden" name="get_id_user" value="<?php /*echo $user['id']; ?>"><input type="hidden" class="delete" id="user" name="lastname" value="<?php echo $user['lastname'];*/ ?>"><label class="d-block block-delete-admin"><input type="submit" name="delete_admin" class="delete-admin" value="" disabled></label></form>
-                      </td>
-                    </tr>
-
-                    <?php
-                               // endif;
-                      //endforeach;
-                    ?>
-
-                </tbody>
-              </table>
-            </div>
-
-
-
 
 
             <div class="col-md-12 py-3 position-relative"><h3 class="text-info my-0">Livres en attente de retour</h3>
@@ -375,12 +280,15 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
                                   endif;
                                 if ($user['type_user'] !== $typeUsers[0]['type_user']) :*/
                               ?>
-                          </select></td>
-                      <td>
-                        <form method="post" name="form-update"><input type="hidden" name="get_type_user" value="<?php /*echo $user['type_user']; ?>"><input type="hidden" class="update" id="user" name="user_id" value="<?php echo $user['id'];*/ ?>"><label class="d-block block-update-admin"><input type="submit" name="update_admin" class="update-admin" value="" disabled></label></form>
+                          </select>
                       </td>
-                      <td>
-                        <form method="post" name="form-delete"><input type="hidden" name="get_id_user" value="<?php /*echo $user['id']; ?>"><input type="hidden" class="delete" id="user" name="lastname" value="<?php echo $user['lastname'];*/ ?>"><label class="d-block block-delete-admin"><input type="submit" name="delete_admin" class="delete-admin" value="" disabled></label></form>
+
+                      <td class="cell-update">
+                          <form method="post" name="form-update"><input type="hidden" class="statut-injected" name="statut_injected" value=""><input type="hidden" class="update" name="user_id" value="<?php echo $user['id']; ?>"><label class="d-block block-update-by-admin"><input type="submit" name="update_by_admin" class="update-by-admin" value="" disabled></label></form>
+                      </td>
+
+                      <td class="cell-delete">
+                          <form method="post" name="form-delete"><input type="hidden" name="get_id_user" value="<?php echo $user['id']; ?>"><label id="<?php if (isset($user['termination_date'])) {echo $user['id'];} ?>" class="d-block block-delete-by-admin"><input type="submit" name="delete_by_admin" class="delete-by-admin" value="" disabled></label></form>
                       </td>
                     </tr>
 
