@@ -1,33 +1,24 @@
 <?php
 
-require_once("../Config/config.php");
-$dbName = new \PDO(DSN , DB_USER, DB_PASS);
-    
-  require_once("../model/Dbconnect.php");
-  require_once("../model/Usermanager.php");
+    require_once("../Config/config.php");
+    require_once("../Model/Dbconnect.php");
+    require_once("../Model/Usermanager.php");
 
-  $newUserManager = new media_library\Usermanager($dbName);
+    $dbName = new \PDO(DSN , DB_USER, DB_PASS);
+    $newUserManager = new media_library\Usermanager($dbName);
 
-  $users = $newUserManager->getUsers(); 
-  $userConnected = $newUserManager->getUserById($_SESSION['userId']); 
+    $users = $newUserManager->getUsers(); 
+    $userConnected = $newUserManager->getUserById($_SESSION['userId']); 
 
-  if (isset($_POST['update_by_admin'])) {
-    //var_dump($_POST['update_by_admin']);
-    //echo "<pre>"; var_dump($_POST); echo "</pre>"; echo "<pre>"; var_dump($userConnected); echo "</pre>";
-    //echo $_POST['user_id']; echo $userConnected[0]['id'];
-    //echo $_POST['statut_injected'];
-    //echo "<pre>"; var_dump($userConnected); echo "</pre>";
+    if (isset($_POST['update_by_admin'])) {
+        $userIdConnected = (int)$userConnected[0]['id']; 
+        $fullNameUserConnected = $userConnected[0]['firstname']. ' - ' .$userConnected[0]['lastname']; 
+        $statutInjected = $_POST['statut_injected']; 
+        $toUserId = (int)$_POST['user_id']; 
 
-    $userIdConnected = (int)$userConnected[0]['id']; echo $userIdConnected;
-    $fullNameUserConnected = $userConnected[0]['firstname']. ' - ' .$userConnected[0]['lastname']; echo $fullNameUserConnected;
-    $statutInjected = $_POST['statut_injected']; echo $statutInjected; 
-    $toUserId = (int)$_POST['user_id']; echo $toUserId;
-
-    $newUserManager->updateStatutUser($userIdConnected, $fullNameUserConnected, $statutInjected, $toUserId);
-
-    $users = $newUserManager->getUsers();
-  }
-
+        $newUserManager->updateStatutUser($userIdConnected, $fullNameUserConnected, $statutInjected, $toUserId);
+        $users = $newUserManager->getUsers();
+    }
 ?>                       
 
 <div class="container">
@@ -167,6 +158,7 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
                       <?php 
                         foreach ($users as $key => $user) : 
                           if ($user['type_user'] === $_typeUser[3]) :
+                            $currentUser = $newUserManager->getUserRegistrationByUserId($user['id']);
                       ?>
 
                         <tr class="row-user">
@@ -190,12 +182,13 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
 
                                   <?php
                                   else :
-                                      for ($i = 0; $i < count($_statutUser); $i++) :
+                                      for ($i = 0; $i < count($_statutUser); $i++) :   
                                   ?>
 
-                                    <option value="<?php echo $_statutUser[$i]; ?>"<?php if ($user['statut_user'] === $_statutUser[$i]) {echo "selected";} ?>><?php echo $_statutUser[$i]; ?></option>  
+                                    <option value="<?php echo $_statutUser[$i]; ?>"<?php if ($user['statut_user'] === $_statutUser[$i]) {echo "selected";} ?>><?php if ($user['statut_user'] === "actif") {echo $user['statut_user']; break;} else if ($currentUser[0]['by_user_id'] !== NULL) {echo $user['statut_user']; break;} else { echo $_statutUser[$i]; } ?></option>  
                                     
                                   <?php
+                                        if ($user['statut_user'] === "non actif" && isset($user['termination_date'])) { break; }
                                       endfor;
                                     endif;
                                   ?>

@@ -39,7 +39,7 @@
     }
 }
 
-@media only screen and (max-width: 1160px) and (min-width: 466px) {
+@media only screen and (max-width: 1160px) and (min-width: 366px) {
     .card-book {
         padding: 1px!important;
     }
@@ -54,7 +54,7 @@
         width: 100%!important;
     }
     .available, .not-available {
-        font-size: 2.75vw!important;
+        font-size: 2.25vw!important;
     }
 }
 
@@ -160,7 +160,7 @@
 }
 
 .available, .not-available {
-    font-size: 1.5vw;
+    font-size: 1.25vw;
 }
 
 .select-tutos {

@@ -4,44 +4,44 @@ namespace media_library;
 class Book {
 
 private $_book = [];
-private $_user_id = "";
-private $_cms_id = "";
+private $_book_title = "";
+private $_author = "";
 
 
-    public function __construct($book, $userId, $cmsId) {
-        $this->setbook($book);
-        $this->setUserId($userId);
-        $this->setcmsId($cmsId);
+    public function __construct($book, $bookTitle, $author) {
+        $this->setBook($book);
+        $this->setBookTitle($bookTitle);
+        $this->setAuthor($author);
     }
 
 
-    public function setbook($book) {
+    public function setBook($book) {
         $this->_book = $book;
     }
 
 
-    public function setUserId($userId) {
-        $this->_user_id = $userId;
+    public function setBookTitle($bookTitle) {
+        $this->_book_title = $bookTitle;
     }
 
 
-    public function setcmsId($cmsId) {
-        $this->_cms_id = $cmsId;
+    public function setAuthor($author) {
+        $this->_author = $author;
     }
 
 
-    public function getbook() {
+    public function getBook() {
         return $this->_book;
     }
 
 
-    public function getUserId() {
-        return $this->_user_id;
+    public function getBookTitle() {
+        return $this->_book_title;
     }
     
 
-    public function getcmsId() {
-        return $this->_cms_id;
+    public function getAuthor() {
+        return $this->_author;
     }
 
 }

@@ -44,7 +44,7 @@ $delete =   '<picture>
     }*/
 
     require_once("../View/header_page.php");
-    require_once("../controller/process_logout.php");
+    require_once("../Controller/process_logout.php");
 ?>
 
     <body>
@@ -56,10 +56,13 @@ $delete =   '<picture>
         <?php 
         if (isset($_SESSION["uniqId"]) && $_SESSION["level"] < 2) {
             require_once("interfaces_administrations/content_admin.php");
-        } else if (isset($_SESSION["uniqId"]) && $_SESSION["level"] === 2) {
+        } else if (isset($_SESSION["uniqId"]) && $_SESSION["level"] === 2 && $_SESSION["statut_user"] === "actif") {
             require_once("interfaces_administrations/content_admin_employe.php");
-          } else if (isset($_SESSION["uniqId"]) && $_SESSION["level"] > 2) {
+          } else if (isset($_SESSION["uniqId"]) && $_SESSION["level"] > 2 && $_SESSION["statut_user"] === "actif") {
               require_once("interfaces_administrations/content_admin_subscriber.php");
+            } else {
+              header('Location: ' .ACCUEIL);
+              exit;
             }
         ?>
 

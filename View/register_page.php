@@ -4,21 +4,11 @@ session_start();
   require_once("../Config/config.php");
   require_once("header_page.php");
   require_once("../Controller/process_logout.php");
+  require_once("../Controller/process_errors.php");
 
-  $msg = ""; 
-
-    if (isset($_GET['msg-status']) && $_GET['msg-status'] === "succes-registration") {$id = $_GET['msg-status']; 
-        $msg = "Inscription éffectué avec succès, en attente de validation par un modérateur. Vous pouvez quand même vous connectez pour voir l'évolution de votre statut";
-        $msg .= '<a class="d-inline-block px-2 mt-3 small text-center msg-login" href="register_page.php"><span class="text-danger">X</span></a><a class="d-inline-block px-3 mt-3 small text-center msg-login" href="login_page.php">Connexion</a>';
-    }
-
-    if (isset($_GET['message'])) { 
-        if ($_GET['message'] === "empty") {$msg = "Les champs sont vides.";}
-        else if ($_GET['message'] === "incomplete") {$msg = "Tous les champs doivent être remplis correctement.";} 
-        else if ($_GET['message'] === "incorrect") {$msg = "Un des champs ne possède pas la valeur ou le nombre de caractères attendus.";} 
-        else if ($_GET['message'] === "unknow") {$msg = "Une erreur est survenu.";} 
-        $msg .= '<a class="d-inline-block px-3 mt-3 small text-center msg-login" href="register_page.php">❌</a>';
-    }
+  if (isset($msg) && $msg !== "") {
+    $msg .= '<a class="d-inline-block px-3 mt-3 small text-center msg-login" href="admin.php">❌</a>';
+  }
 ?>
 
     <body class="bg-section-register">
@@ -81,7 +71,7 @@ session_start();
                                     </dl>
                                 </div>
 
-                                <span id="msg-status" class="<?php if (isset($_GET['msg-status'])) {echo $_GET['msg-status'];} else {echo "message";} ?>"><?php echo $msg; ?></span>
+                                <span id="msg-status" class="<?php if (isset($_GET['msg-status-user'])) {echo $_GET['msg-status-user'];} else {echo "message";} ?>"><?php echo $msg; ?></span>
                                 
                             </aside>
 

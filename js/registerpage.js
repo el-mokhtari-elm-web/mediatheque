@@ -9,7 +9,7 @@
             msgStatus.style.textAlign = "left";
             msgStatus.style.fontWeight = "bold";
 
-            (msgStatus.classList.value === "succes-registration" ? msgStatus.style.color = "green" : msgStatus.style.color = "red");
+            (msgStatus.classList.value === "success-insertion-user" ? msgStatus.style.color = "green" : msgStatus.style.color = "red");
 
             setTimeout(() => {
             msgStatus.style.color = "transparent";
@@ -21,5 +21,6 @@
                 });
             }, 4500);
         }
+        
     });   
 })()

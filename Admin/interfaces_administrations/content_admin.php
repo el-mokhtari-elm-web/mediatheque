@@ -1,63 +1,43 @@
 <?php
-$msg = ""; 
+ 
+require_once("../Controller/process_errors.php"); 
 
-if (isset($_GET['msg-status']) && $_GET['msg-status'] === "succes-registration") {$id = $_GET['msg-status']; 
-    $msg = "L'inscription de ce nouvel utilisateur à été éffectué avec succès";
+if (isset($msg) && $msg !== "") {
     $msg .= '<a class="d-inline-block px-3 mt-3 small text-center msg-login" href="admin.php">❌</a>';
 }
 
-if (isset($_GET['message'])) { 
-    if ($_GET['message'] === "empty") {$msg = "Les champs sont vides.";}
-    else if ($_GET['message'] === "incomplete") {$msg = "Tous les champs doivent être remplis correctement.";} 
-    else if ($_GET['message'] === "incorrect") {$msg = "Un des champs ne possède pas la valeur ou le nombre de caractères attendus.";} 
-    else if ($_GET['message'] === "unknow") {$msg = "Une erreur est survenu.";} 
-    $msg .= '<a class="d-inline-block px-3 mt-3 small text-center msg-login" href="admin.php">❌</a>';
-}
+    require_once("../Config/config.php"); 
+    require_once("../Model/Dbconnect.php");
+    $dbName = new \PDO(DSN , DB_USER, DB_PASS);
 
-require_once("../Config/config.php");
-$dbName = new \PDO(DSN , DB_USER, DB_PASS);
+    require_once("../Model/Usermanager.php"); 
+    require_once("../Controller/process_files.php"); 
+
+    //$dbConnect = new media_library\Dbconnect($dbName); 
     
-  require_once("../model/Dbconnect.php");
-  require_once("../model/Usermanager.php"); 
+    $newUserManager = new media_library\Usermanager($dbName); 
 
-  $dbConnect = new media_library\Dbconnect($dbName); 
-
-  $newUserManager = new media_library\Usermanager($dbName); 
-
-  $users = $newUserManager->getUsers();  //echo "<pre>"; var_dump($users); echo "</pre>";
-  $userConnected = $newUserManager->getUserById($_SESSION['userId']); 
+    $users = $newUserManager->getUsers();  
+    $userConnected = $newUserManager->getUserById($_SESSION['userId']); 
 
   if (isset($_POST['update_by_admin'])) {
-    //echo "<pre>"; var_dump($_POST); echo "</pre>"; 
-    //echo "<pre>"; var_dump($userConnected); echo "</pre>";
-    //echo $_POST['user_id']; echo $userConnected[0]['id'];
-    //echo $_POST['statut_injected'];
-    //echo "<pre>"; var_dump($userConnected); echo "</pre>";
 
-    $userIdConnected = (int)$userConnected[0]['id']; echo $userIdConnected;
-    $fullNameUserConnected = $userConnected[0]['firstname']. ' - ' .$userConnected[0]['lastname']; echo $fullNameUserConnected;
-    $statutInjected = $_POST['statut_injected']; echo $statutInjected. '<br>';
-    $toUserId = (int)$_POST['user_id']; echo $toUserId. '<br>';
+      $userIdConnected = (int)$userConnected[0]['id']; 
+      $fullNameUserConnected = $userConnected[0]['firstname']. ' - ' .$userConnected[0]['lastname']; 
+      $statutInjected = $_POST['statut_injected']; 
+      $toUserId = (int)$_POST['user_id']; 
 
-    $newUserManager->updateStatutUser($userIdConnected, $fullNameUserConnected, $statutInjected, $toUserId);
-    $users = $newUserManager->getUsers();
-    $userConnected = $newUserManager->getUserById($_SESSION['userId']);
-    
-    $users = $newUserManager->getUsers();
+      $newUserManager->updateStatutUser($userIdConnected, $fullNameUserConnected, $statutInjected, $toUserId);
+      $userConnected = $newUserManager->getUserById($_SESSION['userId']);
+      $users = $newUserManager->getUsers();
+
   } else if (isset($_POST['delete_by_admin'])) {
 
+      $newUserManager->deleteUser((int)$_POST['get_id_user'], $_POST['statut_injected']);
+      $users = $newUserManager->getUsers();
+      $userConnected = $newUserManager->getUserById($_SESSION['userId']);
 
-    //echo "<pre>"; var_dump($_POST); echo "</pre>"; 
-    $newUserManager->deleteUser((int)$_POST['get_id_user']);
-
-    $users = $newUserManager->getUsers();
-    $userConnected = $newUserManager->getUserById($_SESSION['userId']);
-    
-    //$users = $newUserManager->getUsers();
-    //$cmsByUsers = $newUserManager->getCmsByUsers();
-    //$usersPremium = $newUserManager->getUsersPremium();
   }
-
 ?>                       
 
 <div class="container">
@@ -71,7 +51,9 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
             </ol>
           </nav>
           <!-- /Breadcrumb -->
-    
+
+          <span id="msg-status" class="<?php if (isset($_GET['msg-status-img'])) {echo $_GET['msg-status-img'];} else if (isset($_GET['msg-status-user'])) {echo $_GET['msg-status-user'];} else {echo "message";} ?>"><?php echo $msg; ?></span>
+
           <div class="row gutters-sm">
             
             <div class="col-md-4 mb-3">
@@ -100,29 +82,45 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
                   </div>
                 </div>
 
-                <form class="d-block card mt-3 mb-1 px-3 pt-3 pb-2" method="post" name="form-tutos" enctype="multipart/form-data">
+                <form class="d-block card mt-3 mb-1 px-3 pt-3 pb-2" method="post" name="form-books" enctype="multipart/form-data">
                     <h3 class="text-info">Ajouter un livre</h3>
 
                     <div class="form-group">
-                        <label for="title_book">Titre</label>
-                        <input type="text" class="form-control" id="title_book" placeholder="titre">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="author_book" class="mt-3">Auteur</label>
-                        <input type="text" class="form-control" id="author_book" placeholder="auteur">
+                        <label for="book-title">Titre</label>
+                        <input type="text" class="form-control" id="book-title" name="book_title" placeholder="da vinci code">
                     </div>
 
                     <div class="custom-file mt-4">
-                    <label class="custom-file-label" for="img-book">Choisir
-                        <input type="file" id="img-book" class="custom-file-input my-1" name="img_books[]" value="tutos" multiple="multiple">
+                      <span class="small">Page de couverture</span>
+                        <label class="custom-file-label" for="img-book">Choisir
+                            <input type="file" id="img-book" class="custom-file-input my-1" name="book_img[]" value="tutos">
                         </label>
+                        <div id="infos-download" class="d-block card px-3 py-1"></div>
                     </div>
 
-                    <input type="submit" class="d-block btn btn-secondary w-100 mx-auto mt-5 mb-1 py-3 px-5" name="submit" value="envoyer">
-                </form>
+                    <div class="form-group">
+                        <label for="release-date" class="mt-3">Date de parution</label>
+                        <input type="date" class="form-control" id="release-date" name="release_date" placeholder="date">
+                    </div>
 
-                <div id="infos-download" class="d-block card my-1 px-3 py-3"></div>
+                    <div class="form-group py-2 mt-4">
+                          <label class="control-label col-sm-12 col-12" for="synopsis">Description  
+                              <textarea class="form-control" rows="4" id="synopsis" name="synopsis"></textarea>
+                          </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="author" class="mt-3">Auteur</label>
+                        <input type="text" class="form-control" id="author" name="author" placeholder="dan brown">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="genre" class="mt-3">Genre</label>
+                        <input type="text" class="form-control" id="genre" name="genre" placeholder="thriller">
+                    </div>
+
+                    <input type="submit" class="d-block btn btn-secondary w-100 mx-auto mt-5 mb-1 py-3 px-5" name="submit_form_books" value="envoyer">
+                </form>
             </div>
             
             <div class="col-md-8 mb-5 pb-5 position-relative"><h3 class="text-info my-0">Liste des utilisateurs</h3>
@@ -153,17 +151,6 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
 
                       <?php 
                         foreach ($users as $key => $user) : 
-
-                          $currentUser = $newUserManager->getUserById($user['id']);
-                            if (isset($_POST['type_injected'])) {
-                              //echo $_POST['statut_injected'];
-                              //echo $currentUser[0]['statut_user']; 
-                              if ($currentUser[0]['type_user'] !== ['type_injected']) {
-                                $typeUser = $_POST['type_injected']; //echo $statutInjected. '<br>';
-                                $newUserManager->updateTypeUser($userIdConnected, $toUserId, $typeUser);
-                                //$currentUser[0]['type_user'] = $typeUser;
-                              }
-                            }
                       ?>
 
                         <tr class="row-user">
@@ -209,14 +196,28 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
 
                                   <?php
                                   else :                               
-                                        for ($i = 2; $i < count($_typeUser)+2; $i++) :
+                                      for ($i = 2; $i < count($_typeUser)+2; $i++) :
                                     ?>
 
-                                      <option value="<?php echo $_typeUser[$i]; ?>"<?php if ($user['type_user'] === $_typeUser[$i]) {echo "selected";} ?>><?php echo $_typeUser[$i]; ?></option>   
+                                      <option value="<?php echo $_typeUser[$i]; ?>"
+                                        <?php
+                                          $currentUser = $newUserManager->getUserById($user['id']);
+                                            if (isset($_POST['update_by_admin'])) { 
+                                                if ($currentUser[0]['type_user'] !== $_POST['type_injected']) {
+                                                    $typeUser = $_POST['type_injected']; 
+                                                    $newUserManager->updateTypeUser($userIdConnected, $toUserId, $typeUser);
+                                                    if ($currentUser[0]['type_user'] === $_typeUser[$i] && $currentUser[0] === (int)$_POST['user_id']) {echo "selected";}
+                                                }
+                                            }
+                                            if ($currentUser[0]['type_user'] === $_typeUser[$i]) {echo "selected";} 
+                                        ?>>
+                                      
+                                      <?php echo $_typeUser[$i]; ?>
+                                      </option>   
                                       
                                     <?php
-                                          endfor;
-                                        endif;
+                                      endfor;
+                                    endif;
                                     ?>
                                 </select>
                             </td>
@@ -226,7 +227,7 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
                             </td>
 
                             <td class="cell-delete">
-                              <form method="post" name="form-delete"><input type="hidden" name="get_id_user" value="<?php echo $user['id']; ?>"><label id="<?php if (isset($user['termination_date'])) {echo $user['id'];} ?>" class="d-block block-delete-by-admin"><input type="submit" name="delete_by_admin" class="delete-by-admin" value="" disabled></label></form>
+                              <form method="post" name="form-delete"><input type="hidden" name="get_id_user" value="<?php echo $user['id']; ?>"><input type="hidden" name="statut_injected" value="non actif"><label id="<?php if (isset($user['termination_date'])) {echo $user['id'];} ?>" class="d-block block-delete-by-admin"><input type="submit" name="delete_by_admin" class="delete-by-admin" value="" disabled></label></form>
                             </td>
                         </tr>
 
@@ -296,8 +297,6 @@ $dbName = new \PDO(DSN , DB_USER, DB_PASS);
                                     </label>
                                 </div>
                             </aside>
-
-                                <span id="msg-status" class="<?php if (isset($_GET['msg-status'])) {echo $_GET['msg-status'];} else {echo "message";} ?>"><?php echo $msg; ?></span>
 
                             <aside>
                                 <input type="hidden" name="administrateur_id" value="<?php echo $_SESSION['userId']; ?>">

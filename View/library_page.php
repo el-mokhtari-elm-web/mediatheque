@@ -2,19 +2,19 @@
   session_start();
 
     require_once("../Config/config.php");
+    require_once("../Model/Dbconnect.php");
+    require_once("../Model/Usermanager.php");
 
     if (!isset($_SESSION['uniqId'])) {
         header('Location: ' .LOGIN.'?user=unconnected'); 
         exit;
     }
 
-    $dbName = new \PDO(DSN , DB_USER, DB_PASS);
-    
-    require_once("../model/Dbconnect.php");
-    require_once("../model/Usermanager.php"); 
+    $dbName = new \PDO(DSN , DB_USER, DB_PASS); 
 
     $newUserManager = new media_library\Usermanager($dbName); 
-    $user = $newUserManager->getUserRegistrationByUserId($_SESSION['userId']); 
+    $user = $newUserManager->getUserById($_SESSION['userId']);
+    $registration = $newUserManager->getUserRegistrationByUserId($_SESSION['userId']); 
   
     require_once("header_page.php");
 
@@ -56,13 +56,13 @@
         </div> <!-- Inner main header -->
 
         <?php
-            if ($user[0]['by_full_name'] === NULL) : 
+            if ($registration[0]['by_full_name'] === NULL || $user[0]['statut_user'] === "non actif") : 
         ?>
 
         <div class="d-block mx-auto bg-info m5 p-5 rounded  mt-5 pt-5 h-100 text-center">
-            <p class="pt-5 mt-5">Bonjour <?php echo $user[0]['to_full_name']; ?></p>
-            <p>En attente de validation...</p>
-            <p>Vous ête inscrit depuis le <?php echo $newUserManager->dateToFrench($user[0]['registration_date'],'l j F Y'); ?></p>
+            <p class="pt-5 mt-5">Bonjour <?php echo $registration[0]['to_full_name']; ?></p>
+            <p>En attente de contrôle ou validation...</p>
+            <p>Vous ête inscrit depuis le <?php echo $newUserManager->dateToFrench($registration[0]['registration_date'],'l j F Y'); ?></p>
             <p class="small text-muted">Vous pouvez consulter l'état de votre inscription simplement en vous connectant</p>
         </div>
 

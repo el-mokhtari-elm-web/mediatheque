@@ -52,20 +52,6 @@ public static function dateToFrench($date, $format) {
         }
     }
 
-
-    public function testFileEntry($entry) {
-        $extensionsImg = ['.png', '.jpg'];
-
-        $entry = substr($entry, -4);
-
-        for ($i = 0; $i < count($extensionsImg); $i++) {
-            if (in_array($entry, $extensionsImg[$i])) {
-                return true;
-            } 
-        }
-        return false;
-    }
-
 }
 
 

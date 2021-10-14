@@ -3,8 +3,8 @@
 require_once("../Config/config.php");
 $dbName = new \PDO(DSN , DB_USER, DB_PASS);
     
-  require_once("../model/Dbconnect.php");
-  require_once("../model/Usermanager.php");
+  require_once("../Model/Dbconnect.php");
+  require_once("../Model/Usermanager.php");
 
   $newUserManager = new media_library\Usermanager($dbName);
 

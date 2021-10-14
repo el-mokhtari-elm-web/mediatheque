@@ -3,18 +3,36 @@
     window.addEventListener("DOMContentLoaded", function() {
 
         var rowUser = document.getElementsByClassName("row-user"); 
-
-        var inputsFiles = document.getElementsByName("img_books[]"); 
+        var inputsFiles = document.getElementsByName("book_img[]"); 
         var infosDownload = document.getElementById("infos-download"); 
-
         var deleteByAdmin = document.getElementsByClassName("delete-by-admin");
-        //deleteByAdmin.style.backgroundImage = "url('../assets/svg/not-available.svg')";
+        var msgStatus = document.getElementById("msg-status");
+
+        msgStatus.style.display = "none";
+
+        if (msgStatus.attributes.class.value !== undefined) {
+            msgStatus.style.display = "block";
+
+            msgStatus.style.fontSize = "13px";
+            msgStatus.style.textAlign = "left";
+            msgStatus.style.fontWeight = "bold";
+
+            (msgStatus.classList.value === "success-insertion-book" || msgStatus.classList.value === "success-insertion-user" ? msgStatus.style.color = "green" : msgStatus.style.color = "red");
+
+            setTimeout(() => {
+            msgStatus.style.color = "transparent";
+            msgStatus.style.transitionProperty = "color";
+            msgStatus.style.transitionDelay = "0";
+            msgStatus.style.transitionDuration = "4s";
+                msgStatus.addEventListener("transitionend", function() {
+                    msgStatus.style.display = "none";
+                });
+            }, 4500);
+
+        }
+
 
         for (var i = 0; i < deleteByAdmin.length; i++) {
-            //rowUser[i].addEventListener("click", (e) => {
-                //e.stopPropagation();
-
-
                 if (deleteByAdmin[i].parentNode.id.length > 0) {
                     console.log(deleteByAdmin[i].parentNode.id);
                     deleteByAdmin[i].style.backgroundImage = "url('../assets/svg/delete.svg')";
@@ -22,33 +40,7 @@
                     console.log("rien");
                     deleteByAdmin[i].style.backgroundImage = "url('../assets/svg/not-available.svg')";
                 }
-
-                //console.log(deleteByAdmin[i].value);
-            //})
         }
-
-
-        /*for (var i = 0; i < rowUser.length; i++) {
-            
-            rowUser[i].addEventListener("change", (e) => {
-                e.stopPropagation();
-                
-                if (e.target.name === "types_users") {
-                    let formsUpdateAndDelete = e.target.parentNode.parentNode.getElementsByTagName("form");
-                    console.log(formsUpdateAndDelete);
-                    console.log(formsUpdateAndDelete[0].name);
-                    for (let d = 0; d < formsUpdateAndDelete.length; d++) {
-                        if (formsUpdateAndDelete[d].name === "form-update") {
-                            console.log(formsUpdateAndDelete[d].name);
-                            e.target.parentNode.nextElementSibling.childNodes[1].childNodes[0].value = e.target.value;
-                        } else {
-                            return;
-                        }
-                    }
-                }
-
-            })
-        }*/
 
 
         // for activation the row in array user by input checkbox in admin to update or delete one user 
@@ -56,9 +48,6 @@
         for (var r = 0; r < rowUser.length; r++) {
             rowUser[r].addEventListener("click", (e) => {
                 e.stopPropagation();
-
-                //registrationDate = e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0].value;
-                //registrationDate = registrationDate;
 
                 if (e.target.name === "selected-row") {
                     let statutSelected = e.target.parentNode.parentNode.getElementsByClassName("statut-selected")[0];
@@ -78,7 +67,6 @@
                             e.stopPropagation();
                             statutSelected.value = e.target.value;
                             statutInjected.value = statutSelected.value;
-                            console.log(statutInjected.value);
                         })
                         statutInjected.value = statutSelected.value;
 
@@ -86,7 +74,6 @@
                             e.stopPropagation();
                             typeSelected.value = e.target.value;
                             typeInjected.value = typeSelected.value;
-                            console.log(statutInjected.value);
                         })
                         typeInjected.value = typeSelected.value;
 
@@ -101,6 +88,7 @@
             })
         }
 
+
         for (var s = 0; s < inputsFiles.length; s++) {
                 inputsFiles[s].addEventListener('change',function(e) {
                     e.stopPropagation();
@@ -114,6 +102,7 @@
                 }
             })
         }
+        
 
     });   
 

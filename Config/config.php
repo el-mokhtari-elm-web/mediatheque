@@ -33,7 +33,8 @@ define ("BOOTSTRAP_MODAL", "/media-library/node_modules/bootstrap/js/dist/modal.
 
 define ("SVG", "/media-library/assets/svg");
 define ("PNG", "/media-library/assets/png");
-define ("IMG_PATH", $_SERVER['DOCUMENT_ROOT'].PNG);
+define ("COVER_PAGES", "/media-library/cover_pages_lib/");
+define ("IMG_PATH", $_SERVER['DOCUMENT_ROOT']);
 
 define("DSN", 'mysql:host=127.0.0.1; dbname=media_library');
 define("DB_USER", "elmokhtari");

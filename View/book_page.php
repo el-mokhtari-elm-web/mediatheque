@@ -22,7 +22,7 @@ require_once("../Controller/process_logout.php");
 
         <h1 class="d-block w-50 mx-auto my-5 text-info text-center title-page">Fiche détails du livre</h1>
 
-        <section class="d-flex row flex-wrap py-2 justify-content-center rounded align-items-center section-book-page">
+        <section class="d-flex-inline row flex-wrap py-2 justify-content-center rounded align-items-center section-book-page">
 
             <aside class="container w-75 py-1 px-4 rounded page-book">
                 <div class="row page-infos-book">
@@ -44,13 +44,14 @@ require_once("../Controller/process_logout.php");
 
                         <div class="rent-book">
                             <div class="d-flex flex-fill justify-content-between align-items-center">
-                                <button class="d-block w-25 mx-auto mt-2 py-2 btn btn-success btn-check-rent" id="launch-modal" data-toggle="modal" data-target="#modal-rent-conditions">reserver</button>
+                                <button class="d-block w-25 mx-auto mt-1 mb-4 py-3 btn btn-success btn-check-rent" id="launch-modal" data-toggle="modal" data-target="#modal-rent-conditions">reserver</button>
                             </div>    
                         </div>                                        
                     </div>                              
             
-                    <div class="d-flex justify-content-left">
-                        <h4 class="d-inline-block auteur">auteur : <span>Dawud</span></h4>
+                    <div class="d-flex flex-row justify-content-left">
+                        <h4 class="d-inline-block border border-muted text-muted auteur">auteur : <span class="text-dark">Dawud</span></h4>
+                        <h4 class="d-inline-block border border-muted text-muted auteur">Date de parution : <span class="text-dark">2010 - 10 - 05</span></h4>
                     </div>		
                 </div>
 

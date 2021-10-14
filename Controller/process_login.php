@@ -25,12 +25,14 @@ if ((isset($_SESSION["uniqId"]) && ($_SESSION["sessionId"]) === session_id())) {
             $_SESSION["userId"] = $userVerified[0]["id"];
 
             $levelRight = intval($userVerified[0]["level_user"]);
+            $statutUser = $userVerified[0]["statut_user"];
 
             $bigPassWordSession = $grainSaltSession.session_id();
             
                 if (($bigPassWordSession === $grainSaltSession.session_id()) && ($levelRight > 0) && (!isset($_SESSION["uniqId"]))) {
                     $_SESSION["uniqId"] = uniqid();
                     $_SESSION["level"] = $levelRight;
+                    $_SESSION["statut_user"] = $statutUser;
                     $validateCheck = true;
                 } else {
                     $validateCheck = false;
