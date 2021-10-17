@@ -1,46 +1,28 @@
-.container-library {
-    margin-top: 111px;
-    color: #1a202c;
-    text-align: left;
-    background-color: #e2e8f0;    
-}
-
-.inner-wrapper {
-    position: relative;
-    min-height: 1200px;
-    transition: transform 0.3s;
-} 
-
-.nav-library {
-    min-height: 50px;
-    margin-top: 56px;
-    z-index: 2;
-}
-
 @media (max-width: 992px) {
     .container-library {
-        margin-top: 330px;   
+        margin-top: 205px!important;   
     }
     .nav-library {
-        flex-direction: column;
-        min-height: 250px;
+        flex-direction: column!important;
+        justify-content: center!important;
+        min-height: 120px!important;
+        margin: 85px auto 0!important;
+        padding:  0 7.5px 10px 7.5px!important;
+
     }
-    .bloc-select-tutos, .bloc-search-bar, .search-bar {
-        display: block;
+    .bloc-select-choice, .bloc-search-bar {
         width: 100%!important;
     }
-    .bloc-select-tutos {
-        margin: 0!important;
+    .bloc-select-choice>div {
+        justify-content: center!important;
     }
-    .select-tutos {
-        display: block;
-        width: 100%;
-        margin: 1% 0;
+    .search-bar {
+        margin-top: 15px!important;
     }
 }
 
 @media only screen and (max-width: 1160px) and (min-width: 366px) {
-    .card-book {
+    .bloc-card-book {
         padding: 1px!important;
     }
 }
@@ -56,6 +38,54 @@
     .available, .not-available {
         font-size: 2.25vw!important;
     }
+}
+
+.container-library {
+    margin-top: 111px;
+    color: #1a202c;
+    text-align: left;
+    background-color: #e2e8f0;    
+}
+
+.inner-wrapper {
+    position: relative;
+    min-height: 550px;
+    transition: transform 0.3s;
+} 
+
+.page-cover {
+    display: inline-block!important;
+    height: 50%!important;
+    text-align: center!important;
+}
+.page-cover img {
+    display: inline-block!important;
+    max-width: 50%!important;
+    max-height: 100%!important;
+}
+
+.nav-library {
+    min-height: 50px;
+    margin-top: 56px;
+    z-index: 2;
+}
+
+.bloc-select-choice select {
+    border-radius: 0 3px 3px 0!important;
+    padding-left: 3%!important;
+}
+
+.card-book {
+    min-height: 400px!important;
+    padding-top: 3px!important;
+}
+
+.card-body {
+    min-height: 180px!important;
+}
+
+.label-choice {
+    border-radius: 3px 0 0 3px!important;
 }
 
 .inner-main, .inner-sidebar {
@@ -89,7 +119,7 @@
 }
 
 .inner-main-body, .inner-sidebar-body {
-    padding: 1rem;
+    padding: 0.5rem;
     overflow-y: auto;
     position: relative;
     flex: 1 1 auto;
@@ -164,14 +194,14 @@
 }
 
 .select-tutos {
-    min-width: 47%;
+    min-width: 55%;
     min-height: 45px!important;
     border-width: 1px!important;
     border-radius: 25px!important;
 }
 
 .bloc-search-bar {
-    min-width: 40%;
+    width: 50%;
 }
 
 .search-bar {

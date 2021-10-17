@@ -14,17 +14,18 @@ if (isset($_GET['msg-status-user'])) {
             else if ($_GET['msg-status-user'] === "user-exist") {$msg = "Cet utilisateur éxiste déjà.";}
 }
 
-if (isset($_GET['msg-status-img'])) { 
-    if ($_GET['msg-status-img'] === "success-insertion-book") {
+if (isset($_GET['msg-status-book'])) { 
+    if ($_GET['msg-status-book'] === "success-insertion-book") {
         $msg = nl2br("L'insertion de ce nouveau livre à été éffectué avec succès dans la médiathèque \r\n");
         $msg.= $_GET['cover-page'];
-    } else if ($_GET['msg-status-img'] === "error-insertion-book") {
+    } else if ($_GET['msg-status-book'] === "error-insertion-book") {
           $msg = "Ce livre éxiste déjà";
-        } else if ($_GET['msg-status-img'] === "empty") {
+        } else if ($_GET['msg-status-book'] === "empty") {
             $msg = "Les champs sont vides.";
-          } else if ($_GET['msg-status-img'] === "incomplete") {
+          } else if ($_GET['msg-status-book'] === "incomplete") {
               $msg = "Tous les champs doivent être remplis correctement.";
-            }   else if ($_GET['msg-status-img'] === "incorrect") {$msg = "Un des champs ne possède pas la valeur ou le nombre de caractères attendus.";} 
-                else if ($_GET['msg-status-img'] === "unknown") {$msg = "Une erreur est survenu.";}
+            }   else if ($_GET['msg-status-book'] === "incorrect") {$msg = "Un des champs ne possède pas la valeur ou le nombre de caractères attendus.";} 
+                else if ($_GET['msg-status-book'] === "unknown") {$msg = "Une erreur est survenu.";}
+                else if ($_GET['msg-status-book'] === "book-exist") {$msg = "Ce livre éxiste déjà dans la médiathèque.";}
 }
 

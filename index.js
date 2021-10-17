@@ -2,7 +2,7 @@
 
     window.addEventListener("DOMContentLoaded", function() {
 
-        $('#launch-modal').on('click', function () {
+        $('.launch-modal').on('click', function () {
             $('#modal-rent-conditions').modal('show')
             $('#close-modal').modal('hide')
         })

@@ -12,12 +12,14 @@
 
         if (msgStatus.attributes.class.value !== undefined) {
             msgStatus.style.display = "block";
-
-            msgStatus.style.fontSize = "13px";
-            msgStatus.style.textAlign = "left";
+            msgStatus.style.margin = "0";
+            msgStatus.style.fontSize = "12px";
+            msgStatus.style.lineHeight = "27px";
+            msgStatus.style.textAlign = "center";
             msgStatus.style.fontWeight = "bold";
+            msgStatus.style.borderRadius = "5px";
 
-            (msgStatus.classList.value === "success-insertion-book" || msgStatus.classList.value === "success-insertion-user" ? msgStatus.style.color = "green" : msgStatus.style.color = "red");
+            (msgStatus.classList.value === "success-insertion-book" || msgStatus.classList.value === "success-insertion-user" ? msgStatus.style.backgroundColor = "#B0F2B6" : msgStatus.style.backgroundColor = "pink");
 
             setTimeout(() => {
             msgStatus.style.color = "transparent";

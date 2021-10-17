@@ -4,6 +4,7 @@
     require_once("../Config/config.php");
     require_once("../Model/Dbconnect.php");
     require_once("../Model/Usermanager.php");
+    require_once("../Model/Bookmanager.php");
 
     if (!isset($_SESSION['uniqId'])) {
         header('Location: ' .LOGIN.'?user=unconnected'); 
@@ -15,6 +16,15 @@
     $newUserManager = new media_library\Usermanager($dbName); 
     $user = $newUserManager->getUserById($_SESSION['userId']);
     $registration = $newUserManager->getUserRegistrationByUserId($_SESSION['userId']); 
+
+    $newBookManager = new media_library\Bookmanager($dbName); 
+    $genres = $newBookManager->_genres;
+    $allBooks = $newBookManager->getBooks();
+
+    require_once("../Controller/process_request.php");
+
+    //echo "<br><br>";
+    //echo "<pre>"; echo serialize($allBooks); echo "</pre>";
   
     require_once("header_page.php");
 
@@ -28,23 +38,32 @@
         ?>
 
         <div class="d-flex flex-row flex-wrap justify-content-between align-items-top fixed-top px-5 inner-main-header nav-library">  <!-- Inner main header -->                              
-            <div class="d-block w-50 col-12 bloc-select-tutos">                             
-                <select class="d-inline-block border-info select-tutos">
-                    <option selected="selected">CMS</option>
-                    <option value="0">Wordpress</option>
-                    <option value="1">woocommerce</option>
-                    <option value="3">livres-noir</option>
-                    <option value="3">virtuemart</option>
-                    <option value="3">Prestahop</option>
-                </select>
+            <div class="d-flex flexrow justify-content-center align-items-center w-50 col-12 bloc-select-choice">   
+                
+                <form action="../Controller/process_request.php" id="form-genres-library" class="input-group border-info" name="form-genres-library">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text label-choice" for="genre">Genres</label>
+                    </div>
 
-                <select class="d-inline-block border-info select-tutos">
-                    <option selected="selected">Catégories</option>
-                    <option value="">Page</option>
-                    <option value="">Article</option>
-                    <option value="">Medias</option>
-                    <option value="">Back-end</option>
-                </select>
+                    <!--<div id="container_select_react" class="custom-select w-50 border-info rounded bloc-choice"></div>-->
+                        
+                    <select class="custom-select w-50 border-info rounded bloc-choice" id="genre" name="genre">
+
+                            <option id="all-genres" value="all-genres">Tout</option>
+
+                        <?php
+                            for($i = 0; $i < count($genres); $i++) :
+                        ?>
+
+                            <option value="<?php echo $genres[$i]; ?>"><?php echo $genres[$i]; ?></option> 
+
+                        <?php
+                            endfor;
+                        ?>
+
+                    </select>
+                </form>
+
             </div>
 
             <div class="d-inline-block border-info bloc-search-bar">
@@ -71,12 +90,12 @@
         ?>
 
         <div class="container-fluid container-library">
-            <div class="main-body mx-2 pt-2 pb-3">             
+            <div class="main-body mx-2 pt-2 pb-1">             
                 <div class="inner-wrapper">
                     
                     <div class="inner-sidebar"> <!-- Inner sidebar -->
                         <div class="inner-sidebar-body p-0"> <!-- Inner sidebar body -->
-                            <div class="p-3 h-100" data-simplebar="init">
+                            <div class="p-1 h-100" data-simplebar="init">
                                 <div class="simplebar-wrapper">
                                     <div class="simplebar-mask">
                                         <div class="simplebar-offset">
@@ -93,195 +112,35 @@
                         <div class="inner-main-body p-2 p-sm-3 show"> <!-- Inner main body -->
 
                             <div class="d-flex bg-light flex-wrap col-lg-12 col-md-12 justify-content-left py-3 px-3 block-cards">
-                                
-                                <div class="col-lg-3 col-md-6 col-sm-12 mb-5 px-3 bg-light rounded card-book">
-                                    <div class="card h-70 border border-light card-tuto-free">
-                                        <div class="d-flex flex-row justify-content-between align-items-center opacity-25 col-lg-12 card label-free"></div>
 
-                                        <span class="d-inline-block"><img class="card-img-top" src="<?php echo SVG.'/livres-noir.svg'; ?>" height="110px" height="110px"></span>
-                                        
-                                        <div class="card-body">
-                                            <h4 class="card-title">Item Two</h4>
-                                            <p class="card-text small font-weight-bold">Lorem ipsum dolor sit amet, consectetur adipisicing elit. dore epsum diramor tariami...<span class="d-inline-block small"><a href="<?php echo BOOK_PAGE; ?>">Voir plus</a></span></p>
-                                        </div>
+                                <?php 
+                                    foreach ($allBooks as $key => $book) :
+                                ?>
+                                    
+                                    <div id="<?php echo $book['genre'].'-'.$key; ?>" class="col-lg-3 col-md-6 col-sm-6 mb-5 px-3 bg-light rounded bloc-card-book">
+                                        <div class="card h-70 border border-light card-book">
+                                            <div class="d-flex flex-row justify-content-between align-items-center opacity-25 col-lg-12 card label-free"></div>
 
-                                        <div class="d-flex flex-fill justify-content-between align-items-center my-0 py-0 card-footer">
-                                            <span class="d-inline-block small text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</span><a class="d-flex small" href="#"><img src="<?php echo SVG.'/play.svg'; ?>" height="39px"></a>
-                                        </div>
+                                            <span id="<?php echo $book['genre'].'-'.$key; ?>" class="d-inline-block page-cover"><img id="<?php echo $book['this_filename']; ?>" src="<?php echo COVER_PAGES.'/'.$book['this_filename']; ?>" class="card-img-top src-cover"></span>
+                                            
+                                            <div class="card-body">
+                                                <h5 class="card-title"><?php echo $book['book_title']; ?></h5>
+                                                <p class="card-text small font-weight-bold"><?php echo substr($book['synopsis'], 0, 90). '...'; ?><span class="d-block small"><a href="<?php echo BOOK_PAGE; ?>">Voir plus</a></span></p>
+                                            </div>
 
-                                        <div class="d-flex flex-fill justify-content-between align-items-center card-footer">
-                                            <button class="d-block w-100 h-auto btn btn-success available" id="launch-modal" data-toggle="modal" data-target="#modal-rent-conditions">reserver</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                            <div class="d-flex flex-fill justify-content-between align-items-center my-0 py-0 card-footer">
+                                                <span class="d-inline-block small text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</span><a class="d-flex small" href="#"><img src="<?php echo SVG.'/play.svg'; ?>" height="39px"></a>
+                                            </div>
 
-                                <div class="col-lg-3 col-md-6 col-sm-12 mb-5 px-3 bg-light rounded card-book">
-                                    <div class="card h-70 border border-light card-tuto-free">
-                                        <div class="d-flex flex-row justify-content-between align-items-center opacity-25 col-lg-12 card label-free"></div>
-
-                                        <span class="d-inline-block px-2"><img class="card-img-top" src="<?php echo SVG.'/livres-noir.svg'; ?>" height="110px"></span>
-                                        
-                                        <div class="card-body">
-                                            <h4 class="card-title">Item Two</h4>
-                                            <p class="card-text small font-weight-bold">Lorem ipsum dolor sit amet, consectetur adipisicing elit. dore epsum diramor tariami...<span class="d-inline-block small"><a href="#" class="text-decoration">Voir plus</a></span></p>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center my-0 py-0 card-footer">
-                                            <span class="d-inline-block small text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</span><a class="d-flex small" href="#"><img src="<?php echo SVG.'/play.svg'; ?>" height="39px"></a>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center card-footer">
-                                            <button class="d-block w-100 h-auto btn btn-danger not-available" disabled>indisponible</button>
+                                            <div class="d-flex flex-fill justify-content-between align-items-center card-footer">
+                                                <button class="d-block w-100 h-auto btn btn-success available launch-modal" id="launch-modal" data-toggle="modal" data-target="#modal-rent-conditions">reserver</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="col-lg-3 col-md-6 col-sm-12 mb-5 px-3 bg-light rounded card-book">
-                                    <div class="card h-70 border border-light card-tuto-free">
-                                        <div class="d-flex flex-row justify-content-between align-items-center opacity-25 col-lg-12 card label-free"></div>
-
-                                        <span class="d-inline-block px-2"><img class="card-img-top" src="<?php echo SVG.'/livres-noir.svg'; ?>" height="110px"></span>
-                                        
-                                        <div class="card-body">
-                                            <h4 class="card-title">Item Two</h4>
-                                            <p class="card-text small font-weight-bold">Lorem ipsum dolor sit amet, consectetur adipisicing elit. dore epsum diramor tariami...<span class="d-inline-block small"><a href="#" class="text-decoration">Voir plus</a></span></p>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center my-0 py-0 card-footer">
-                                            <span class="d-inline-block small text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</span><a class="d-flex small" href="#"><img src="<?php echo SVG.'/play.svg'; ?>" height="39px"></a>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center card-footer">
-                                            <button class="d-block w-100 h-auto btn btn-success available">reserver</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3 col-md-6 col-sm-12 mb-5 px-3 bg-light rounded card-book">
-                                    <div class="card h-70 border border-light card-tuto-free">
-                                        <div class="d-flex flex-row justify-content-between align-items-center opacity-25 col-lg-12 card label-free"></div>
-
-                                        <span class="d-inline-block px-2"><img class="card-img-top" src="<?php echo SVG.'/livres-noir.svg'; ?>" height="110px"></span>
-                                        
-                                        <div class="card-body">
-                                            <h4 class="card-title">Item Two</h4>
-                                            <p class="card-text small font-weight-bold">Lorem ipsum dolor sit amet, consectetur adipisicing elit. dore epsum diramor tariami...<span class="d-inline-block small"><a href="#" class="text-decoration">Voir plus</a></span></p>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center my-0 py-0 card-footer">
-                                            <span class="d-inline-block small text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</span><a class="d-flex small" href="#"><img src="<?php echo SVG.'/play.svg'; ?>" height="39px"></a>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center card-footer">
-                                            <button class="d-block w-100 h-auto btn btn-success available">reserver</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3 col-md-6 col-sm-12 mb-5 px-3 bg-light rounded card-book">
-                                    <div class="card h-70 border border-light card-tuto-free">
-                                        <div class="d-flex flex-row justify-content-between align-items-center opacity-25 col-lg-12 card label-free"></div>
-
-                                        <span class="d-inline-block px-2"><img class="card-img-top" src="<?php echo SVG.'/livres-noir.svg'; ?>" height="110px"></span>
-                                        
-                                        <div class="card-body">
-                                            <h4 class="card-title">Item Two</h4>
-                                            <p class="card-text small font-weight-bold">Lorem ipsum dolor sit amet, consectetur adipisicing elit. dore epsum diramor tariami...<span class="d-inline-block small"><a href="#" class="text-decoration">Voir plus</a></span></p>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center my-0 py-0 card-footer">
-                                            <span class="d-inline-block small text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</span><a class="d-flex small" href="#"><img src="<?php echo SVG.'/play.svg'; ?>" height="39px"></a>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center card-footer">
-                                            <button class="d-block w-100 h-auto btn btn-success available">reserver</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3 col-md-6 col-sm-12 mb-5 px-3 bg-light rounded card-book">
-                                    <div class="card h-70 border border-light card-tuto-free">
-                                        <div class="d-flex flex-row justify-content-between align-items-center opacity-25 col-lg-12 card label-free"></div>
-
-                                        <span class="d-inline-block px-2"><img class="card-img-top" src="<?php echo SVG.'/livres-noir.svg'; ?>" height="110px"></span>
-                                        
-                                        <div class="card-body">
-                                            <h4 class="card-title">Item Two</h4>
-                                            <p class="card-text small font-weight-bold">Lorem ipsum dolor sit amet, consectetur adipisicing elit. dore epsum diramor tariami...<span class="d-inline-block small"><a href="#" class="text-decoration">Voir plus</a></span></p>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center my-0 py-0 card-footer">
-                                            <span class="d-inline-block small text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</span><a class="d-flex small" href="#"><img src="<?php echo SVG.'/play.svg'; ?>" height="39px"></a>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center card-footer">
-                                            <button class="d-block w-100 h-auto btn btn-success available">reserver</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3 col-md-6 col-sm-12 mb-5 px-3 bg-light rounded card-book">
-                                    <div class="card h-70 border border-light card-tuto-free">
-                                        <div class="d-flex flex-row justify-content-between align-items-center opacity-25 col-lg-12 card label-free"></div>
-
-                                        <span class="d-inline-block px-2"><img class="card-img-top" src="<?php echo SVG.'/livres-noir.svg'; ?>" height="110px"></span>
-                                        
-                                        <div class="card-body">
-                                            <h4 class="card-title">Item Two</h4>
-                                            <p class="card-text small font-weight-bold">Lorem ipsum dolor sit amet, consectetur adipisicing elit. dore epsum diramor tariami...<span class="d-inline-block small"><a href="#" class="text-decoration">Voir plus</a></span></p>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center my-0 py-0 card-footer">
-                                            <span class="d-inline-block small text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</span><a class="d-flex small" href="#"><img src="<?php echo SVG.'/play.svg'; ?>" height="39px"></a>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center card-footer">
-                                            <button class="d-block w-100 h-auto btn btn-danger not-available" disabled>indisponible</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3 col-md-6 col-sm-12 mb-5 px-3 bg-light rounded card-book">
-                                    <div class="card h-70 border border-light card-tuto-free">
-                                        <div class="d-flex flex-row justify-content-between align-items-center opacity-25 col-lg-12 card label-free"></div>
-
-                                        <span class="d-inline-block px-2"><img class="card-img-top" src="<?php echo SVG.'/livres-noir.svg'; ?>" height="110px"></span>
-                                        
-                                        <div class="card-body">
-                                            <h4 class="card-title">Item Two</h4>
-                                            <p class="card-text small font-weight-bold">Lorem ipsum dolor sit amet, consectetur adipisicing elit. dore epsum diramor tariami...<span class="d-inline-block small"><a href="#" class="text-decoration">Voir plus</a></span></p>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center my-0 py-0 card-footer">
-                                            <span class="d-inline-block small text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</span><a class="d-flex small" href="#"><img src="<?php echo SVG.'/play.svg'; ?>" height="39px"></a>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center card-footer">
-                                            <button class="d-block w-100 h-auto btn btn-success available">reserver</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3 col-md-6 col-sm-12 mb-5 px-3 bg-light rounded card-book">
-                                    <div class="card h-70 border border-light card-tuto-free">
-                                        <div class="d-flex flex-row justify-content-between align-items-center opacity-25 col-lg-12 card label-free"></div>
-
-                                        <span class="d-inline-block px-2"><img class="card-img-top" src="<?php echo SVG.'/livres-noir.svg'; ?>" height="110px"></span>
-                                        
-                                        <div class="card-body">
-                                            <h4 class="card-title">Item Two</h4>
-                                            <p class="card-text small font-weight-bold">Lorem ipsum dolor sit amet, consectetur adipisicing elit. dore epsum diramor tariami...<span class="d-inline-block small"><a href="#" class="text-decoration">Voir plus</a></span></p>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center my-0 py-0 card-footer">
-                                            <span class="d-inline-block small text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</span><a class="d-flex small" href="#"><img src="<?php echo SVG.'/play.svg'; ?>" height="39px"></a>
-                                        </div>
-
-                                        <div class="d-flex flex-fill justify-content-between align-items-center card-footer">
-                                            <button class="d-block w-100 h-auto btn btn-success available">reserver</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <?php 
+                                    endforeach;
+                                ?>
 
                             </div>
 
@@ -297,7 +156,7 @@
             </div> <!-- main body -->
         </div> <!-- container -->
 
-        <ul class="pagination pagination-sm pagination-circle justify-content-center mt-3 mb-2">
+        <ul class="pagination pagination-sm pagination-circle justify-content-center mt-2 mb-0">
             <li class="page-item disabled">
                 <span class="page-link has-icon">❰</span>
             </li>
@@ -316,6 +175,11 @@
         <script type="text/javascript" src="<?php echo BOOTSTRAP_JS; ?>"></script>
         <script type="text/javascript" src="<?php echo JQUERY; ?>"></script>
         <script type="text/javascript" src="<?php echo INDEX_JS; ?>"></script>
+        <script type="text/javascript" src="<?php echo BOOKING_JS; ?>"></script>
+
+        <!--<script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
+        <script src="../node_modules/Select.js"></script>-->
 
     </body>
 

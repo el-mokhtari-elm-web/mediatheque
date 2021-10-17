@@ -1,5 +1,4 @@
 <?php
-
 namespace media_library;
 
 class Filemanager {
@@ -17,17 +16,19 @@ private $charsValide = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', '
                         'X', 'Y', 'Z', '-', '_', '.']; 
 
 private function checkFileName($fileName) { 
-    if (strlen($fileName) < 21) {
+    if (strlen($fileName) < 30) {
         for ($i = 0; $i < strlen($fileName); $i++) { 
             if (!in_array($fileName[$i], $this->charsValide)) {
                 $this->_msgError = "Choisir uniquement des caractères alphanumériques, tiret ou underscore";
                 $this->_msgStatus['ERROR'] = $this->_msgError;
                     return false;
             }
-        } return $fileName; // CHECK
+        } 
+        
+        return $fileName; // CHECK
                     
     }   else {
-            $this->_msgError = "Pas plus de 21 caractères autorisés";
+            $this->_msgError = "Pas plus de 30 caractères autorisés";
             $this->_msgStatus['ERROR'] = $this->_msgError;
                 return false;
         }
@@ -56,7 +57,7 @@ private function checkFileName($fileName) {
                             return $this->getMsgStatus(); 
                         }
 
-                    if (!file_exists($fileCheck) && $file['book_img']['size'][$key] < 500000) {
+                    if (!file_exists($fileCheck) && $file['book_img']['size'][$key] < 700000) {
                                 
                             move_uploaded_file($currentPath, $fileCheck);
 
@@ -65,7 +66,9 @@ private function checkFileName($fileName) {
                                 $this->_msgStatus['TMP_NAME'] = $file['book_img']['tmp_name'][$key];
                                 $this->_msgStatus['FILE'] = $fileCheck;
 
-                                return $this->getMsgStatus();
+                                $this->getMsgStatus();
+                                
+                                return true;
 
                     }   else {
                             $this->_msgError = "Cette page de couverture éxiste déjà !";

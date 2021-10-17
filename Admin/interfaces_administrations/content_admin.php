@@ -3,7 +3,7 @@
 require_once("../Controller/process_errors.php"); 
 
 if (isset($msg) && $msg !== "") {
-    $msg .= '<a class="d-inline-block px-3 mt-3 small text-center msg-login" href="admin.php">❌</a>';
+    $msg .= '<a class="d-inline-block px-2 font-weight-bold text-center text-danger" href="admin.php">X</a>';
 }
 
     require_once("../Config/config.php"); 
@@ -11,11 +11,14 @@ if (isset($msg) && $msg !== "") {
     $dbName = new \PDO(DSN , DB_USER, DB_PASS);
 
     require_once("../Model/Usermanager.php"); 
+    require_once("../Model/Book.php");
+    require_once("../Model/Bookmanager.php");
+    require_once("../Model/Filemanager.php");
     require_once("../Controller/process_files.php"); 
-
-    //$dbConnect = new media_library\Dbconnect($dbName); 
     
     $newUserManager = new media_library\Usermanager($dbName); 
+    $newBookManager = new media_library\Bookmanager($dbName); 
+    $genres = $newBookManager->_genres;
 
     $users = $newUserManager->getUsers();  
     $userConnected = $newUserManager->getUserById($_SESSION['userId']); 
@@ -44,7 +47,7 @@ if (isset($msg) && $msg !== "") {
     <div class="main-body">
 
           <!-- Breadcrumb -->
-          <nav aria-label="breadcrumb" class="main-breadcrumb mb-5 bg-info px-3 rounded">
+          <nav aria-label="breadcrumb" class="main-breadcrumb mb-4 bg-info px-3 rounded">
             <ol class="breadcrumb menu-admin">
               <li class="breadcrumb-item"><h5 class="font-weight-bold p-0 m-0 accueil-admin">Bienvenue sur Votre espace d'administration</h5></li>
               <li class="logout"><form name="logout" method="post"><input type="hidden" name="hidden"><input type="submit" name="logout" value="Déconnexion"></form></li>
@@ -52,11 +55,11 @@ if (isset($msg) && $msg !== "") {
           </nav>
           <!-- /Breadcrumb -->
 
-          <span id="msg-status" class="<?php if (isset($_GET['msg-status-img'])) {echo $_GET['msg-status-img'];} else if (isset($_GET['msg-status-user'])) {echo $_GET['msg-status-user'];} else {echo "message";} ?>"><?php echo $msg; ?></span>
+          <span id="msg-status" class="<?php if (isset($_GET['msg-status-book'])) {echo $_GET['msg-status-book'];} else if (isset($_GET['msg-status-user'])) {echo $_GET['msg-status-user'];} else {echo "message";} ?>"><?php echo $msg; ?></span>
 
-          <div class="row gutters-sm">
+          <div class="row gutters-sm my-5">
             
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-4">
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex flex-column align-items-evenly justify-content-evenly text-center">
@@ -114,9 +117,24 @@ if (isset($msg) && $msg !== "") {
                         <input type="text" class="form-control" id="author" name="author" placeholder="dan brown">
                     </div>
 
-                    <div class="form-group">
-                        <label for="genre" class="mt-3">Genre</label>
-                        <input type="text" class="form-control" id="genre" name="genre" placeholder="thriller">
+                    <div class="input-group mt-5 mb-3">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text" for="genre">Genres</label>
+                      </div>
+                      
+                      <select class="custom-select w-50 border-info rounded" id="genre" name="genre">
+
+                          <?php
+                              for($i = 0; $i < count($genres); $i++) :
+                          ?>
+
+                              <option value="<?php echo $genres[$i]; ?>"><?php echo $genres[$i]; ?></option> 
+
+                          <?php
+                              endfor;
+                          ?>
+
+                      </select>
                     </div>
 
                     <input type="submit" class="d-block btn btn-secondary w-100 mx-auto mt-5 mb-1 py-3 px-5" name="submit_form_books" value="envoyer">
