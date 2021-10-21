@@ -5,7 +5,7 @@ class Usermanager extends Dbconnect {
 
 /*-----------------------------------------------------------USER CHECKED---------------------------------------------------------------*/
 
-    public function verifiedUser(User $newUser) {
+    public function verifiedUser(User $newUser) { // FOR insertion in bdd control
         $emailUser = $newUser->getEmailUser(); 
         $passUser = $newUser->getPassUser(); 
 
@@ -32,7 +32,7 @@ class Usermanager extends Dbconnect {
           }
     }
 
-    public function getUserChecked(User $newUser) {
+    public function getUserChecked(User $newUser) { // FOR login control
         $emailUser = $newUser->getEmailUser();
         $passUser = $newUser->getPassUser();
         $stmt = self::$_instance_db->prepare("SELECT * FROM users WHERE email_user = :emailUser AND pass_user = :passUser");
@@ -58,11 +58,18 @@ class Usermanager extends Dbconnect {
             $stmt = self::$_instance_db->prepare("SELECT DISTINCT registrations.registration_date, registrations.termination_date, users.* FROM registrations INNER JOIN users ON registrations.to_user_id = users.id");
                 $stmt->execute();
                     $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                    return $row;
+                        return $row;
+        }
+
+        public function getUserActifs() {
+            $stmt = self::$_instance_db->prepare("SELECT count(id) AS count_users_actifs FROM users WHERE statut_user = 'actif'");
+                $stmt->execute();
+                    $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                        return $row;
         }
 
         public function getUserById($userId) {
-            $stmt = self::$_instance_db->prepare("SELECT * FROM users WHERE id = :userId");
+            $stmt = self::$_instance_db->prepare("SELECT registrations.termination_date, users.* FROM users INNER JOIN registrations ON users.id = registrations.to_user_id WHERE users.id = :userId");
                 $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
                     $stmt->execute();
                         $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -112,10 +119,10 @@ class Usermanager extends Dbconnect {
 
                 if (in_array($newUser['type_user'], self::$_typeUser)) {
                     $typeUser = $newUser['type_user']; 
-                    $stmt->bindParam(':typeUser', $typeUser, \PDO::PARAM_STR); var_dump($typeUser);
+                    $stmt->bindParam(':typeUser', $typeUser, \PDO::PARAM_STR); 
                 
                     $levelUser = array_keys(self::$_typeUser, $newUser['type_user']); // array 
-                    $stmt->bindParam(':levelUser', $levelUser[0], \PDO::PARAM_INT); 
+                    $stmt->bindParam(':levelUser', $levelUser[0], \PDO::PARAM_INT); // entry
 
                     if ((int)$levelUser[0] > 1 && !isset($newUser['administrateur_id'])) {
                         $statutUser = self::$_statutUser[0]; // actif
@@ -231,23 +238,32 @@ class Usermanager extends Dbconnect {
 
     /*----------------------------------------------------FUNCTIONS FOR UPDATE----------------------------------------------------------*/
 
-    public function updateStatutUser($userId, $fullName, $statutUser, $toUserId) { 
-        $stmt = self::$_instance_db->prepare("UPDATE registrations SET by_user_id = :userId, termination_date = :terminationDate, by_full_name = :fullName WHERE to_user_id = :toUserId");
-            $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
-            $stmt->bindParam(':fullName', $fullName, \PDO::PARAM_STR); 
-            $stmt->bindParam(':toUserId', $toUserId, \PDO::PARAM_INT);
+    public function updateStatutUser($userId, $fullName, $statutUser, $toUserId) { // USE by administrator and employe
+        $currentUser = $this->getUserById((int)$toUserId); 
+        $currentAdmin = $this->getUserById((int)$userId); 
 
-            $terminationDate = NULL;
-            $stmt->bindParam(':terminationDate', $terminationDate);
-                if ($stmt->execute()) {
-                    $stmt = self::$_instance_db->prepare("UPDATE users SET statut_user = :statutUser WHERE id = :userId");
-                        $stmt->bindParam(':statutUser', $statutUser, \PDO::PARAM_STR);
-                        $stmt->bindParam(':userId', $toUserId, \PDO::PARAM_INT);
-                            $stmt->execute();
+        if ((($currentUser[0]['statut_user'] !== 'actif' && $currentUser[0]['termination_date'] === NULL)) OR ($currentAdmin[0]['type_user'] === "administrateur")) { 
+        
+            $stmt = self::$_instance_db->prepare("UPDATE registrations SET by_user_id = :userId, termination_date = :terminationDate, by_full_name = :fullName WHERE to_user_id = :toUserId");
+                $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+                $stmt->bindParam(':fullName', $fullName, \PDO::PARAM_STR); 
+                $stmt->bindParam(':toUserId', $toUserId, \PDO::PARAM_INT);
+
+                $terminationDate = NULL;
+                $stmt->bindParam(':terminationDate', $terminationDate);
+
+                    if ($stmt->execute()) {
+                        $stmt = self::$_instance_db->prepare("UPDATE users SET statut_user = :statutUser WHERE id = :userId");
+                            $stmt->bindParam(':statutUser', $statutUser, \PDO::PARAM_STR);
+                            $stmt->bindParam(':userId', $toUserId, \PDO::PARAM_INT);
+                                $stmt->execute();
+                } else {
+                    return;
                 }
+        } 
     }
 
-    public function updateTypeUser($byUserId, $userId, $typeUser) { 
+    public function updateTypeUser($byUserId, $userId, $typeUser) { // USE by administrator
         $stmt = self::$_instance_db->prepare("UPDATE users SET level_user = :levelUser, type_user = :typeUser WHERE id = :userId");
             
             $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
@@ -285,7 +301,11 @@ class Usermanager extends Dbconnect {
 
     /*----------------------------------------------------FUNCTIONS FOR DELETE----------------------------------------------------------*/
     
-        public function deleteUser($userId, $statutUser) {    
+    // DELETE IN TWO time 
+    // FIRST delete is not definitive is a simple radiation by date of radiation
+    // SECOND delete by checking date radiation not null the deleting is definitive
+
+        public function deleteUser($userId, $statutUser) { 
             $stmt = self::$_instance_db->prepare("SELECT termination_date FROM registrations WHERE to_user_id = :userId");
                 $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
                     $stmt->execute();

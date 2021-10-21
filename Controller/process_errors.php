@@ -1,5 +1,7 @@
 <?php
 
+// IN THIS all messages errors or succes taked in GET method for informations in user 
+
 $msg = "";
 
 if (isset($_GET['msg-status-user'])) { 
@@ -27,5 +29,8 @@ if (isset($_GET['msg-status-book'])) {
             }   else if ($_GET['msg-status-book'] === "incorrect") {$msg = "Un des champs ne possède pas la valeur ou le nombre de caractères attendus.";} 
                 else if ($_GET['msg-status-book'] === "unknown") {$msg = "Une erreur est survenu.";}
                 else if ($_GET['msg-status-book'] === "book-exist") {$msg = "Ce livre éxiste déjà dans la médiathèque.";}
+                else if ($_GET['msg-status-book'] === "rent-success") {$msg = "Vous avez loué ce livre, il vous attend à la médiathèque.";}
+                else if ($_GET['msg-status-book'] === "rent-not") {$msg = "Ce livre à déjà été loué";}
+                else if ($_GET['msg-status-book'] === "rent-finish") {$msg = "Ce livre à été remis à la médiathèque";}
 }
 

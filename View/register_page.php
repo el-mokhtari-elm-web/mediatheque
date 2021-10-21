@@ -7,7 +7,7 @@ session_start();
   require_once("../Controller/process_errors.php");
 
   if (isset($msg) && $msg !== "") {
-    $msg .= '<a class="d-inline-block px-3 mt-3 small text-center msg-login" href="admin.php">❌</a>';
+    $msg .= '<a class="d-inline-block px-3 mt-3 small text-center msg-login" href="register_page.php">❌</a>';
   }
 ?>
 

@@ -6,8 +6,8 @@
 
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <meta name="description" content="">
-            <meta name="author" content="">
+            <meta name="description" content="books, médiathèque, library, click and colect, rent books, genres(thriller, fantastique, romance...)">
+            <meta name="author" content="el mokhtari youssef">
 
             <title>médiathèque</title>
 

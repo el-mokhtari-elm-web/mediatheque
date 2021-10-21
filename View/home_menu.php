@@ -18,8 +18,8 @@
                 <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === CONTACT) { echo 'active'; } ?>">
                   <a class="nav-link" href="<?php echo CONTACT; ?>">Contact</a>
                 </li>
-                <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === CONTACT) { echo 'active'; } ?>">
-                  <a class="nav-link" href="<?php echo CONTACT; ?>">Infos coronavirus</a>
+                <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === COVID) { echo 'active'; } ?>">
+                  <a class="nav-link" href="<?php echo COVID; ?>">Infos coronavirus</a>
                 </li>
 
                 <?php

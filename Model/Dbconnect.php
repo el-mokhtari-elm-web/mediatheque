@@ -8,7 +8,7 @@ protected static $_instance_db;
 protected static $_typeUser = [1 => "administrateur", 2 => "employe", 3 => "user_subscriber"]; // property for control before insertion in bdd
 protected static $_statutUser = ["non actif", "actif"];
 
-public static function dateToFrench($date, $format) {
+public static function dateToFrench($date, $format) { // method for formattage date
     $english_days = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
     $french_days = array('lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche');
     $english_months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
@@ -22,7 +22,7 @@ public static function dateToFrench($date, $format) {
     }
 
 
-    public function setInstanceDb($db) {
+    public function setInstanceDb($db) { // pattern singleton for using one instance
         if (is_null(self::$_instance_db)) {
         self::$_instance_db = $db;
         } else {

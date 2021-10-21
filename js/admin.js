@@ -36,10 +36,8 @@
 
         for (var i = 0; i < deleteByAdmin.length; i++) {
                 if (deleteByAdmin[i].parentNode.id.length > 0) {
-                    console.log(deleteByAdmin[i].parentNode.id);
                     deleteByAdmin[i].style.backgroundImage = "url('../assets/svg/delete.svg')";
                 } else {
-                    console.log("rien");
                     deleteByAdmin[i].style.backgroundImage = "url('../assets/svg/not-available.svg')";
                 }
         }
@@ -52,41 +50,79 @@
                 e.stopPropagation();
 
                 if (e.target.name === "selected-row") {
-                    let statutSelected = e.target.parentNode.parentNode.getElementsByClassName("statut-selected")[0];
-                    let statutInjected = e.target.parentNode.parentNode.getElementsByClassName("statut-injected")[0];
+                        let statutSelected = e.target.parentNode.parentNode.getElementsByClassName("statut-selected")[0];
+                        let statutInjected = e.target.parentNode.parentNode.getElementsByClassName("statut-injected")[0];
 
-                    let typeSelected = e.target.parentNode.parentNode.getElementsByClassName("type-selected")[0];
-                    let typeInjected = e.target.parentNode.parentNode.getElementsByClassName("type-injected")[0];
+                        let typeSelected = e.target.parentNode.parentNode.getElementsByClassName("type-selected")[0];
+                        let typeInjected = e.target.parentNode.parentNode.getElementsByClassName("type-injected")[0];
 
-                    if (e.target.checked === true) {
-                        e.target.parentNode.parentNode.getElementsByClassName("update-by-admin")[0].disabled = false;
-                        if (e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0] != undefined) {
-                            let checkForDelete = e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0];
-                            checkForDelete.disabled = false; 
-                        } 
+                        if (e.target.checked === true) {
+                            e.target.parentNode.parentNode.getElementsByClassName("update-by-admin")[0].disabled = false;
+                            if (e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0] != undefined) {
+                                let checkForDelete = e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0];
+                                checkForDelete.disabled = false; 
+                            } 
+                        
+                                statutSelected.addEventListener("change", (e) => {
+                                    e.stopPropagation();
+                                    statutSelected.value = e.target.value;
+                                    statutInjected.value = statutSelected.value;
+                                })
+                                statutInjected.value = statutSelected.value;
 
-                        statutSelected.addEventListener("change", (e) => {
-                            e.stopPropagation();
-                            statutSelected.value = e.target.value;
-                            statutInjected.value = statutSelected.value;
-                        })
-                        statutInjected.value = statutSelected.value;
+                                typeSelected.addEventListener("change", (e) => {
+                                    e.stopPropagation();
+                                    typeSelected.value = e.target.value;
+                                    typeInjected.value = typeSelected.value;
+                                })
+                                typeInjected.value = typeSelected.value;
 
-                        typeSelected.addEventListener("change", (e) => {
-                            e.stopPropagation();
-                            typeSelected.value = e.target.value;
-                            typeInjected.value = typeSelected.value;
-                        })
-                        typeInjected.value = typeSelected.value;
+                        }   else {
+                                e.target.parentNode.parentNode.getElementsByClassName("update-by-admin")[0].disabled = true;
+                                if (e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0] != undefined) {
+                                    let checkForDelete = e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0];
+                                    checkForDelete.disabled = false; 
+                                } 
+                            }
 
-                    } else {
-                        e.target.parentNode.parentNode.getElementsByClassName("update-by-admin")[0].disabled = true;
-                        if (e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0] != undefined) {
-                            let checkForDelete = e.target.parentNode.parentNode.getElementsByClassName("delete-by-admin")[0];
-                            checkForDelete.disabled = false; 
-                        } 
-                    }
-                }
+                }   else if (e.target.name === "selected-row-employe") {
+
+                        let statutSelected = e.target.parentNode.parentNode.getElementsByClassName("statut-selected")[0];
+                        let statutInjected = e.target.parentNode.parentNode.getElementsByClassName("statut-injected")[0];
+                    
+                        if (e.target.checked === true) {
+                            e.target.parentNode.parentNode.getElementsByClassName("update-by-admin")[0].disabled = false; 
+                        
+                                statutSelected.addEventListener("change", (e) => {
+                                    e.stopPropagation();
+                                    statutSelected.value = e.target.value;
+                                    statutInjected.value = statutSelected.value;
+                                })
+                                statutInjected.value = statutSelected.value;
+
+                        }   else {
+                                e.target.parentNode.parentNode.getElementsByClassName("update-by-admin")[0].disabled = true; 
+                            }
+
+                    }   else if (e.target.name === "selected-row-book") {
+
+                            let statutSelected = e.target.parentNode.parentNode.getElementsByClassName("statut-rent")[0];
+                            let statutInjected = e.target.parentNode.parentNode.getElementsByClassName("statut-injected")[0];
+                        
+                            if (e.target.checked === true) {
+                                e.target.parentNode.parentNode.getElementsByClassName("update-by-admin")[0].disabled = false; 
+                            
+                                    statutSelected.addEventListener("change", (e) => {
+                                        e.stopPropagation();
+                                        statutSelected.value = e.target.value;
+                                        statutInjected.value = statutSelected.value;
+                                    })
+                                    statutInjected.value = statutSelected.value;
+    
+                            }   else {
+                                    e.target.parentNode.parentNode.getElementsByClassName("update-by-admin")[0].disabled = true; 
+                                }
+                        }
             })
         }
 
@@ -105,7 +141,6 @@
             })
         }
         
-
     });   
 
 })()            

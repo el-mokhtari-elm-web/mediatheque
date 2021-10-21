@@ -3,6 +3,7 @@ session_start();
 
 $_typeUser = [2 => "employe", 3 => "user_subscriber"]; 
 $_statutUser = ["non actif", "actif"];
+$_statutBook = ["sorti", "rentré"];
 
 $update =   '<picture>
               <svg height="23px" viewBox="0 0 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" class="update-admin">
@@ -38,10 +39,10 @@ $delete =   '<picture>
   
     require_once("../Config/config.php");
 
-    /*if (!isset($_SESSION['uniqId'])) {
+    if (!isset($_SESSION['uniqId'])) {
         header('Location: ' .ACCUEIL);
         exit;
-    }*/
+    }
 
     require_once("../View/header_page.php");
     require_once("../Controller/process_logout.php");

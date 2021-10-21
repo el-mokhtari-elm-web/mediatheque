@@ -9,10 +9,17 @@
           
         $('#close-modal').on('click', function () {
             $('#modal-rent-conditions').modal('hide')
+            $('#modal-text-conditions').modal('hide')
         })
           
         $('#close-all').on('click', function () {
             $('#modal-rent-conditions').modal('hide')
+            $('#modal-text-conditions').modal('hide')
+        })
+
+        $('.launch-modal-text').on('click', function () {
+            $('#modal-text-conditions').modal('show')
+            $('#close-modal').modal('hide')
         })
 
         var links = document.getElementsByTagName("a"); 

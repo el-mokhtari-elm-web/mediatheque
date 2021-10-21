@@ -15,7 +15,7 @@ private $charsValide = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', '
                         'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'U', 
                         'X', 'Y', 'Z', '-', '_', '.']; 
 
-private function checkFileName($fileName) { 
+private function checkFileName($fileName) { // check entry
     if (strlen($fileName) < 30) {
         for ($i = 0; $i < strlen($fileName); $i++) { 
             if (!in_array($fileName[$i], $this->charsValide)) {
@@ -36,7 +36,7 @@ private function checkFileName($fileName) {
 
 
     public function getMsgStatus() {
-        return $this->_msgStatus;
+        return $this->_msgStatus;  // Return array of potentialy errors
     }                     
 
     public function checkFile($file) {
@@ -59,7 +59,7 @@ private function checkFileName($fileName) {
 
                     if (!file_exists($fileCheck) && $file['book_img']['size'][$key] < 700000) {
                                 
-                            move_uploaded_file($currentPath, $fileCheck);
+                            move_uploaded_file($currentPath, $fileCheck); // bloc move tmp in directory and generation msg errors or succes in array
 
                                 $this->_msgSucces = "page de couverture inserer avec succès";
                                 $this->_msgStatus['SUCCESS'] = $this->_msgSucces;

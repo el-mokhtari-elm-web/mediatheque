@@ -2,9 +2,20 @@
 
 session_start();
 
-  require_once("../Config/config.php");
-  require_once("header_page.php");
-  require_once("../Controller/process_logout.php");
+    require_once("../Config/config.php");
+
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\Exception;
+    
+    require_once('../vendor/phpmailer/phpmailer/src/Exception.php');
+    require_once('../vendor/phpmailer/phpmailer/src/PHPMailer.php');
+    require_once('../vendor/phpmailer/phpmailer/src/SMTP.php');
+
+    require_once("header_page.php");
+    require_once("../Controller/process_send_email.php");
+    require_once("../Controller/process_logout.php");
+    
 ?>
 
     <body class="bg-section-register">
@@ -45,20 +56,21 @@ session_start();
                       </div>
 
                       <div class="form-group py-2">
-                          <label class="control-label col-sm-8 m-auto col-10" for="email">Sujet
-                              <input type="text" class="form-control" id="email" placeholder="titre" name="sujet">
+                          <label class="control-label col-sm-8 m-auto col-10" for="sujet">Sujet
+                              <input type="text" class="form-control" id="sujet" placeholder="titre" name="sujet">
                           </label>
                       </div>
 
                       <div class="form-group py-2">
-                          <label class="control-label col-sm-8 m-auto col-10" for="message">Votre message <?php if (isset($succes)) : ?><span id="msg-status" class="<?php if ($succes === true) { echo "succes"; } else { echo "failure"; } ?>"><?php if (isset($msg_succes)) { echo $msg_succes; } ?></span><?php endif; ?>
+                          <span id="msg-statut-mail"></span>
+                          <label class="control-label col-sm-8 m-auto col-10" for="message">Votre message <?php if (isset($success)) : ?><span id="msg-status-mail" class="<?php if ($success === true) { echo "success"; } else { echo "failure"; } ?>"><?php if (isset($msg_success)) { echo $msg_success; } ?></span><?php endif; ?>
                               <textarea class="form-control" rows="4" id="message" name="message"></textarea>
                           </label>
                       </div>
 
                       <div class="form-group">        
                           <div class="col-sm-offset-2 col-sm-10 m-auto contact-submit">
-                              <input type="submit" id="submit" class="d-block w-50 mt-1 mb-3 py-3 mx-auto btn btn-info btn-md submit" value="Envoyer" name="submit">
+                              <input type="submit" id="submit" class="d-block w-50 mt-1 mb-3 py-3 mx-auto btn btn-info btn-md submit" value="Envoyer" name="submit-email">
                           </div>
                       </div>
                   </form>
@@ -68,17 +80,17 @@ session_start();
 
         <?php require_once("footer_min.php"); ?>
 
+        <script type="text/javascript" src="<?php echo JQUERY; ?>" defer></script>
         <script type="text/javascript" src="<?php echo BOOTSTRAP_JS; ?>" defer></script>
+        <script type="text/javascript" src="<?php echo INDEX_JS; ?>" defer></script>
 
         <script>
             (function(){  
                 window.addEventListener("DOMContentLoaded", function() {
-                    var navBarToggler = document.getElementById("navbar-toggler");
-                    var navBarResponsiv = document.getElementById("navbarResponsive");
-                    var msgStatus = document.getElementById("msg-status");
+                    var msgStatus = document.getElementById("msg-status-mail");
 
                     if (msgStatus != null) {
-                        (msgStatus.className === "succes" ? msgStatus.style.color = "green" : msgStatus.style.color = "red");
+                        (msgStatus.className === "success" ? msgStatus.style.color = "green" : msgStatus.style.color = "red");
 
                         setTimeout(() => {
                         msgStatus.style.color = "transparent";
@@ -93,11 +105,6 @@ session_start();
                 });   
             })()
         </script>
-
-        <!-- Bootstrap core JavaScript -->
-        <script src="<?php echo JQUERY; ?>"></script>
-        <script src="<?php echo BOOTSTRAP_JS; ?>"></script>
-        <script src="<?php echo INDEX_JS; ?>"></script>
 
     </body>
 

@@ -1,6 +1,9 @@
 <?php
   session_start();
 
+  $msg = "";
+  $disabled = "";
+
     require_once("../Config/config.php");
     require_once("../Model/Dbconnect.php");
     require_once("../Model/Usermanager.php");
@@ -19,16 +22,19 @@
 
     $newBookManager = new media_library\Bookmanager($dbName); 
     $genres = $newBookManager->_genres;
-    $allBooks = $newBookManager->getBooks();
 
-    require_once("../Controller/process_request.php");
-
-    //echo "<br><br>";
-    //echo "<pre>"; echo serialize($allBooks); echo "</pre>";
+    $allBooks = $newBookManager->getBooks(); 
   
     require_once("header_page.php");
 
     require_once("../Controller/process_logout.php");
+    require_once("../Controller/process_rent.php");
+    require_once("../Controller/process_errors.php");
+
+    if (isset($msg) && $msg !== "") {
+        $msg .= '<a class="d-inline-block px-2 font-weight-bold text-center text-danger" href="library_page.php">X</a>';
+    }
+
 ?>
 
     <body class="pb-3">
@@ -44,8 +50,6 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text label-choice" for="genre">Genres</label>
                     </div>
-
-                    <!--<div id="container_select_react" class="custom-select w-50 border-info rounded bloc-choice"></div>-->
                         
                     <select class="custom-select w-50 border-info rounded bloc-choice" id="genre" name="genre">
 
@@ -100,6 +104,7 @@
                                     <div class="simplebar-mask">
                                         <div class="simplebar-offset">
                                             <div class="simplebar-content-wrapper"></div>
+                                                <span id="msg-status" class="<?php if (isset($_GET['msg-status-book'])) {echo $_GET['msg-status-book'];} else {echo "message";} ?>"><?php echo $msg; ?></span>
                                         </div>
                                     </div>
                                 </div>
@@ -115,37 +120,52 @@
 
                                 <?php 
                                     foreach ($allBooks as $key => $book) :
+                                        $genre = $book['genre'].'-'.$key; 
+                                        $statut = (int)$book['statut'];
+                                        $bookId = (int)$allBooks[$key]['id'];
+
+                                        $rentalStart = $newBookManager->getDateRental($book['id']); 
+
+                                        $currentBook = $newBookManager->getBookById($book['id']);
+
+                                            foreach ($currentBook as $key => $currentBook) :
                                 ?>
                                     
                                     <div id="<?php echo $book['genre'].'-'.$key; ?>" class="col-lg-3 col-md-6 col-sm-6 mb-5 px-3 bg-light rounded bloc-card-book">
-                                        <div class="card h-70 border border-light card-book">
+                                        <div id="<?php echo $book['id']; ?>" class="card h-70 border border-light card-book">
                                             <div class="d-flex flex-row justify-content-between align-items-center opacity-25 col-lg-12 card label-free"></div>
 
-                                            <span id="<?php echo $book['genre'].'-'.$key; ?>" class="d-inline-block page-cover"><img id="<?php echo $book['this_filename']; ?>" src="<?php echo COVER_PAGES.'/'.$book['this_filename']; ?>" class="card-img-top src-cover"></span>
+                                            <span id="<?php echo $genre; ?>" class="d-inline-block page-cover"><img id="<?php echo $book['this_filename']; ?>" src="<?php echo COVER_PAGES.'/'.$book['this_filename']; ?>" class="card-img-top src-cover"></span>
                                             
                                             <div class="card-body">
                                                 <h5 class="card-title"><?php echo $book['book_title']; ?></h5>
-                                                <p class="card-text small font-weight-bold"><?php echo substr($book['synopsis'], 0, 90). '...'; ?><span class="d-block small"><a href="<?php echo BOOK_PAGE; ?>">Voir plus</a></span></p>
+                                                <p class="card-text small font-weight-bold"><?php echo substr($book['synopsis'], 0, 90). '...'; ?><span class="d-flex mt-2 justify-content-between align-items-center small"><a href="<?php echo BOOK_PAGE.'?id='.$book['id']; ?>">Voir plus</a><a href="#" class="launch-modal-text" id="launch-modal" data-toggle="modal" data-target="#modal-rent-conditions">Lire conditions</a></span></p>
                                             </div>
 
-                                            <div class="d-flex flex-fill justify-content-between align-items-center my-0 py-0 card-footer">
-                                                <span class="d-inline-block small text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</span><a class="d-flex small" href="#"><img src="<?php echo SVG.'/play.svg'; ?>" height="39px"></a>
+                                            <div class="d-block w-100 m-0 p-0 card-footer">
+                                                <div class="progress">
+                                                    <div id="<?php echo 'progress-'.$book['id']; ?>" class="progress-bar" role="progressbar" aria-valuenow="<?php if (count($rentalStart) > 0) { echo $rentalStart[0]['rental_start']; } else { echo "undefined"; } ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
                                             </div>
 
-                                            <div class="d-flex flex-fill justify-content-between align-items-center card-footer">
-                                                <button class="d-block w-100 h-auto btn btn-success available launch-modal" id="launch-modal" data-toggle="modal" data-target="#modal-rent-conditions">reserver</button>
-                                            </div>
+                                            <form method="post" id="<?php echo $currentBook['id']; ?>" class="d-flex flex-fill justify-content-between align-items-center card-footer" name="form-rent">
+                                                <input type="hidden" name="book_id" value="<?php echo $bookId; ?>">
+                                                <input type="hidden" name="user_id" value="<?php echo $_SESSION['userId']; ?>">
+                                                <input type="submit" class="<?php echo 'd-block w-100 h-auto available btn'; ?> <?php if ((int)$currentBook['statut'] !== 0) {echo 'btn-success';} else {echo 'btn-danger';} ?> available" name="submit" value="<?php echo "Reserver"; ?>" <?php if (isset($_POST)) { if ((int)$currentBook['statut'] === 0) { echo "disabled"; } else {echo "";} }?>>
+                                            </form>
+
                                         </div>
                                     </div>
 
                                 <?php 
+                                            endforeach;
                                     endforeach;
                                 ?>
 
                             </div>
 
                             <?php
-                                require_once("../View/modal_rent_conditions.php");
+                                require_once("../View/modal_text_conditions.php");
                             ?>
 
                         </div> <!-- Inner main body -->
@@ -176,10 +196,6 @@
         <script type="text/javascript" src="<?php echo JQUERY; ?>"></script>
         <script type="text/javascript" src="<?php echo INDEX_JS; ?>"></script>
         <script type="text/javascript" src="<?php echo BOOKING_JS; ?>"></script>
-
-        <!--<script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
-        <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
-        <script src="../node_modules/Select.js"></script>-->
 
     </body>
 
